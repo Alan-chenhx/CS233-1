@@ -1,0 +1,109 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.6 " "(v0_9_6)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0xd2ede0 .scope module, "blackbox_test" "blackbox_test" 2 1;
+ .timescale 0 0;
+v0xd46e90_0 .var "g_in", 0 0;
+v0xd47080_0 .net "j_out", 0 0, L_0xd46540; 1 drivers
+v0xd47130_0 .var "v_in", 0 0;
+v0xd471e0_0 .var "y_in", 0 0;
+S_0xd2eed0 .scope module, "black" "blackbox" 2 5, 3 1, S_0xd2ede0;
+ .timescale 0 0;
+L_0xd46540 .functor OR 1, L_0xd48190, L_0xd47350, L_0xd47530, C4<0>;
+L_0xd47350 .functor AND 1, L_0xd476e0, L_0xd47430, C4<1>, C4<1>;
+L_0xd47430 .functor NOT 1, L_0xd476e0, C4<0>, C4<0>, C4<0>;
+L_0xd47530 .functor AND 1, L_0xd475e0, L_0xd47ba0, C4<1>, C4<1>;
+L_0xd475e0 .functor NOT 1, L_0xd47ba0, C4<0>, C4<0>, C4<0>;
+L_0xd476e0 .functor AND 1, L_0xd47740, L_0xd47840, C4<1>, C4<1>;
+L_0xd47740 .functor NOT 1, v0xd471e0_0, C4<0>, C4<0>, C4<0>;
+L_0xd47840 .functor OR 1, v0xd46e90_0, L_0xd47990, C4<0>, C4<0>;
+L_0xd47990 .functor AND 1, v0xd47130_0, L_0xd47a90, C4<1>, C4<1>;
+L_0xd47a90 .functor NOT 1, v0xd46e90_0, C4<0>, C4<0>, C4<0>;
+L_0xd47ba0 .functor OR 1, L_0xd47c00, L_0xd47de0, C4<0>, C4<0>;
+L_0xd47c00 .functor AND 1, L_0xd47b40, L_0xd47cb0, C4<1>, C4<1>;
+L_0xd47b40 .functor NOT 1, v0xd47130_0, C4<0>, C4<0>, C4<0>;
+L_0xd47cb0 .functor NOT 1, v0xd471e0_0, C4<0>, C4<0>, C4<0>;
+L_0xd47de0 .functor AND 1, L_0xd47f20, v0xd47130_0, L_0xd480a0, C4<1>;
+L_0xd47f20 .functor NOT 1, v0xd46e90_0, C4<0>, C4<0>, C4<0>;
+L_0xd480a0 .functor NOT 1, v0xd471e0_0, C4<0>, C4<0>, C4<0>;
+L_0xd48190 .functor AND 1, v0xd47130_0, L_0xd48010, C4<1>, C4<1>;
+L_0xd48010 .functor OR 1, v0xd46e90_0, L_0xd482e0, C4<0>, C4<0>;
+L_0xd482e0 .functor AND 1, v0xd471e0_0, L_0xd481f0, C4<1>, C4<1>;
+L_0xd481f0 .functor NOT 1, v0xd471e0_0, C4<0>, C4<0>, C4<0>;
+v0xd2efc0_0 .net "g", 0 0, v0xd46e90_0; 1 drivers
+v0xd45f20_0 .alias "j", 0 0, v0xd47080_0;
+v0xd45fc0_0 .net "v", 0 0, v0xd47130_0; 1 drivers
+v0xd46060_0 .net "w00", 0 0, L_0xd482e0; 1 drivers
+v0xd46110_0 .net "w01", 0 0, L_0xd47f20; 1 drivers
+v0xd461b0_0 .net "w02", 0 0, L_0xd47530; 1 drivers
+v0xd46290_0 .net "w03", 0 0, L_0xd47740; 1 drivers
+v0xd46330_0 .net "w08", 0 0, L_0xd480a0; 1 drivers
+v0xd46420_0 .net "w10", 0 0, L_0xd481f0; 1 drivers
+v0xd464c0_0 .net "w19", 0 0, L_0xd47ba0; 1 drivers
+v0xd465c0_0 .net "w24", 0 0, L_0xd47a90; 1 drivers
+v0xd46660_0 .net "w31", 0 0, L_0xd47840; 1 drivers
+v0xd46770_0 .net "w32", 0 0, L_0xd47cb0; 1 drivers
+v0xd46810_0 .net "w42", 0 0, L_0xd48190; 1 drivers
+v0xd46930_0 .net "w64", 0 0, L_0xd47b40; 1 drivers
+v0xd469d0_0 .net "w65", 0 0, L_0xd47990; 1 drivers
+v0xd46890_0 .net "w66", 0 0, L_0xd475e0; 1 drivers
+v0xd46b20_0 .net "w72", 0 0, L_0xd47350; 1 drivers
+v0xd46c40_0 .net "w75", 0 0, L_0xd47c00; 1 drivers
+v0xd46cc0_0 .net "w76", 0 0, L_0xd476e0; 1 drivers
+v0xd46ba0_0 .net "w80", 0 0, L_0xd47de0; 1 drivers
+v0xd46df0_0 .net "w92", 0 0, L_0xd47430; 1 drivers
+v0xd46d40_0 .net "w99", 0 0, L_0xd48010; 1 drivers
+v0xd46f30_0 .net "y", 0 0, v0xd471e0_0; 1 drivers
+    .scope S_0xd2ede0;
+T_0 ;
+    %vpi_call 2 9 "$dumpfile", "blackbox.vcd";
+    %vpi_call 2 10 "$dumpvars", 1'sb0, S_0xd2ede0;
+    %set/v v0xd46e90_0, 0, 1;
+    %set/v v0xd47130_0, 0, 1;
+    %set/v v0xd471e0_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 0, 1;
+    %set/v v0xd47130_0, 0, 1;
+    %set/v v0xd471e0_0, 1, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 0, 1;
+    %set/v v0xd47130_0, 1, 1;
+    %set/v v0xd471e0_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 0, 1;
+    %set/v v0xd47130_0, 1, 1;
+    %set/v v0xd471e0_0, 1, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 1, 1;
+    %set/v v0xd47130_0, 0, 1;
+    %set/v v0xd471e0_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 1, 1;
+    %set/v v0xd47130_0, 0, 1;
+    %set/v v0xd471e0_0, 1, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 1, 1;
+    %set/v v0xd47130_0, 1, 1;
+    %set/v v0xd471e0_0, 0, 1;
+    %delay 10, 0;
+    %set/v v0xd46e90_0, 1, 1;
+    %set/v v0xd47130_0, 1, 1;
+    %set/v v0xd471e0_0, 1, 1;
+    %delay 10, 0;
+    %vpi_call 2 23 "$finish";
+    %end;
+    .thread T_0;
+    .scope S_0xd2ede0;
+T_1 ;
+    %vpi_call 2 27 "$monitor", "At time %2t, g_in = %d v_in = %d y_in=%d j_out = %d", $time, v0xd46e90_0, v0xd47130_0, v0xd471e0_0, v0xd47080_0;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "blackbox_tb.v";
+    "blackbox.v";
