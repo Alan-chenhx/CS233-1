@@ -11,14 +11,14 @@ module sc2_test;
         $dumpvars(0,sc2_test);      
            // record all signals of module "sc_test" and sub-modules
                              
-	 a_in = 0; b_in = 0; cin_in=0; # 10;             // set initial values and wait 10 time units
+	a_in = 0; b_in = 0; cin_in=0; # 10;             // set initial values and wait 10 time units
         a_in = 0; b_in = 0; cin_in=1; # 10;             // change inputs and then wait 10 time units
-         a_in = 0; b_in = 1; cin_in=0; # 10;          // as above
+        a_in = 0; b_in = 1; cin_in=0; # 10;          // as above
   	a_in = 0; b_in = 1; cin_in=1; # 10;  
-	 a_in = 1; b_in = 0; cin_in=0; # 10;  
-	 a_in = 1; b_in = 0; cin_in=1; # 10;  
-	 a_in = 1; b_in = 1; cin_in=0; # 10;  
-	 a_in = 1; b_in = 1; cin_in=1; # 10;  
+	a_in = 1; b_in = 0; cin_in=0; # 10;  
+	a_in = 1; b_in = 0; cin_in=1; # 10;  
+	a_in = 1; b_in = 1; cin_in=0; # 10;  
+	a_in = 1; b_in = 1; cin_in=1; # 10;  
 
 	
         $finish;      
