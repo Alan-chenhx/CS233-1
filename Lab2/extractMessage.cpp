@@ -19,6 +19,6 @@ string extractMessage(const bmp & image) {
 	// just doing
 	// pixel * p = image(x, y);
 	// would give a compilation error
-
+	
 	return message;
 }
