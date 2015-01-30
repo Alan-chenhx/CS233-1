@@ -22,6 +22,7 @@ bmp tint_blue(bmp image) {
 		for (int x = 0; x < width; ++x) {
 			pixel * p = image(x, y);
 			p->blue = 255;
+			
 		}
 	}
 	return image;
