@@ -3,5 +3,10 @@ module logicunit(out, A, B, control);
     output      out;
     input       A, B;
     input [1:0] control;
+	
+    
+
+
+
 
 endmodule // logicunit
