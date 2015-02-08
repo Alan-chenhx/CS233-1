@@ -21,9 +21,9 @@ module alu32_test;
 	# 10 A = 5; B = 5; control = `ALU_SUB;
 	# 10 A = 567; B = 6; control = `ALU_SUB;
 	# 10 A = 6; B = 567; control = `ALU_SUB;
-	# 10 A = 233472632427889; B = 332442423467889; control = `ALU_ADD;
-	# 10 A = -2189371287; B = -12379184799; control = `ALU_ADD;
-	# 10 A = 123473298472729457; B = -12387462736427464; control = `ALU_SUB;
+	# 10 A = 32'h80000000; B = 32'h80000000; control = `ALU_ADD;
+	# 10 A = 32'h7fffffff; B = 32'h7fffffff; control = `ALU_ADD;
+	# 10 A = 32'h0fffffff; B = 32'h0fffffff; control = `ALU_ADD;
 	 // add more test cases here!
 
         # 10 $finish;
