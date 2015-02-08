@@ -20,6 +20,6 @@ int
 main() {
     int width = 32;
     for (int i = 2 ; i < width ; i ++) {
-        printf("    or o%d(chain[%d], in[%d], chain[%d]);\n", i, i, i, i-1);
+        printf("    or o%d(chain[%d], in[%d], chain[%d]);\n", i, i, i, i, i-1);
     }
 }
