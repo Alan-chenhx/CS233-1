@@ -16,9 +16,8 @@ main() {
 	  	 //alu1(out[0], carryout[0], A[0],B[0], control[0], control);
 }
 
-	for(int i=1; i<width; i++){
-		printf("out[%d],",i);
-
-}
+//	for(int i=1; i<width; i++){
+//		printf("out[%d],",i);
+//}
 
 }

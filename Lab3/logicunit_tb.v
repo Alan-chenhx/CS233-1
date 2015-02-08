@@ -1,5 +1,5 @@
 module logicunit_test;
-
+	
     reg A = 0;
     always #1 A = !A;
     reg B = 0;
@@ -24,6 +24,13 @@ module logicunit_test;
 	wire out;
     	logicunit l1(out, A, B, control[1:0]);
 
-
+	
+    // you really should be using gtkwave instead
+    /*
+    initial begin
+        $display("A B s o");
+        $monitor("%d %d %d %d (at time %t)", A, B, control, out, $time);
+    end
+*/
     // exhaustively test your logic unit by adapting mux4_tb.v
 endmodule // logicunit_test
