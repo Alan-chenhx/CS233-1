@@ -35,17 +35,17 @@ module i_reader(I, bits, clk, restart);
     assign in000 = bits == 3'b000;
     assign in111 = bits == 3'b111;
 
-    assign sBlank_next = (sBlank | sI_end | sGarbage) & in000;
-    assign sI_next = (sBlank | sI_end) & in111;
-    assign sI_end_next = sI & in000;
-    assign sGarbage_next = ((sBlank | sI_end) & ~(in000 | in111)) | ((sI | sGarbage) & ~in000);
-
-    // enable hardcoded to 1, reset hardcoded to 0
+    assign sBlank_next = ~restart & ((sBlank | sI_end | sGabage )& in000);   // | other condition ... 
+    assign sI_next = ~restart & ((sBlank| sI_end)& in111);
+    assign sI_end_next = ~restart & sI & in000;
+    assign sGarbage_next = restart | (((sBlank | sI_end)& ~(in111| in000)) | ((sI |sGarbage) & ~in000));
+        
     dffe fsBlank(sBlank, sBlank_next, clk, 1'b1, 1'b0);
+    
     dffe fsGarbage(sGarbage, sGarbage_next, clk, 1'b1, 1'b0);
-    dffe fsI(sI, sI_next, clk, 1'b1, 1'b0);
-    dffe fsI_end(sI_end, sI_end_next, clk, 1'b1, 1'b0);
 
-    // outputs are associated with states, NOT transitions
+    dffe fsI(sI, sI_next, clk, 1'b1, 1'b0);
+
+    dffe fsI_end(sI_end, sI_end_next, clk, 1'b1, 1'b0);
     assign I = sI_end;
 endmodule // word_reader

@@ -1,0 +1,252 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.6 " "(v0_9_6)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x24a6fe0 .scope module, "i_reader_test" "i_reader_test" 2 1;
+ .timescale 0 0;
+v0x24d7520_0 .net "I", 0 0, L_0x24d90c0; 1 drivers
+v0x24d77d0_0 .var "bits", 2 0;
+v0x24d7850_0 .var "clk", 0 0;
+v0x24d78d0_0 .var "restart", 0 0;
+S_0x24acb80 .scope module, "ir" "i_reader" 2 32, 3 25, S_0x24a6fe0;
+ .timescale 0 0;
+L_0x24d6490 .functor NOT 1, v0x24d78d0_0, C4<0>, C4<0>, C4<0>;
+L_0x24d7c00 .functor OR 1, v0x24d5c60_0, v0x24d4e80_0, C4<0>, C4<0>;
+L_0x24d7d00 .functor OR 1, L_0x24d7c00, C4<z>, C4<0>, C4<0>;
+L_0x24d7db0 .functor AND 1, L_0x24d7d00, L_0x24d79b0, C4<1>, C4<1>;
+L_0x24d7eb0 .functor AND 1, L_0x24d6490, L_0x24d7db0, C4<1>, C4<1>;
+L_0x24d8000 .functor NOT 1, v0x24d78d0_0, C4<0>, C4<0>, C4<0>;
+L_0x24d8060 .functor OR 1, v0x24d5c60_0, v0x24d4e80_0, C4<0>, C4<0>;
+L_0x24d80c0 .functor AND 1, L_0x24d8060, L_0x24d7ac0, C4<1>, C4<1>;
+L_0x24d8210 .functor AND 1, L_0x24d8000, L_0x24d80c0, C4<1>, C4<1>;
+L_0x24d8360 .functor NOT 1, v0x24d78d0_0, C4<0>, C4<0>, C4<0>;
+L_0x24d84b0 .functor AND 1, L_0x24d8360, v0x24d5320_0, C4<1>, C4<1>;
+L_0x24d8510 .functor AND 1, L_0x24d84b0, L_0x24d79b0, C4<1>, C4<1>;
+L_0x24d8450 .functor OR 1, v0x24d5c60_0, v0x24d4e80_0, C4<0>, C4<0>;
+L_0x24d8730 .functor OR 1, L_0x24d7ac0, L_0x24d79b0, C4<0>, C4<0>;
+L_0x24d88a0 .functor NOT 1, L_0x24d8730, C4<0>, C4<0>, C4<0>;
+L_0x24d8900 .functor AND 1, L_0x24d8450, L_0x24d88a0, C4<1>, C4<1>;
+L_0x24d89f0 .functor OR 1, v0x24d5320_0, v0x24d5800_0, C4<0>, C4<0>;
+L_0x24d8aa0 .functor NOT 1, L_0x24d79b0, C4<0>, C4<0>, C4<0>;
+L_0x24d8960 .functor AND 1, L_0x24d89f0, L_0x24d8aa0, C4<1>, C4<1>;
+L_0x24d8c40 .functor OR 1, L_0x24d8900, L_0x24d8960, C4<0>, C4<0>;
+L_0x24d8b00 .functor OR 1, v0x24d78d0_0, L_0x24d8c40, C4<0>, C4<0>;
+L_0x24d90c0 .functor BUFZ 1, v0x24d4e80_0, C4<0>, C4<0>, C4<0>;
+v0x24d5db0_0 .alias "I", 0 0, v0x24d7520_0;
+v0x24d5e70_0 .net *"_s0", 2 0, C4<000>; 1 drivers
+v0x24d5f10_0 .net *"_s10", 0 0, L_0x24d7c00; 1 drivers
+v0x24d5fb0_0 .net *"_s12", 0 0, L_0x24d7d00; 1 drivers
+v0x24d6060_0 .net *"_s14", 0 0, L_0x24d7db0; 1 drivers
+v0x24d6100_0 .net *"_s18", 0 0, L_0x24d8000; 1 drivers
+v0x24d61e0_0 .net *"_s20", 0 0, L_0x24d8060; 1 drivers
+v0x24d6280_0 .net *"_s22", 0 0, L_0x24d80c0; 1 drivers
+v0x24d6370_0 .net *"_s26", 0 0, L_0x24d8360; 1 drivers
+v0x24d6410_0 .net *"_s28", 0 0, L_0x24d84b0; 1 drivers
+v0x24d6510_0 .net *"_s32", 0 0, L_0x24d8450; 1 drivers
+v0x24d65b0_0 .net *"_s34", 0 0, L_0x24d8730; 1 drivers
+v0x24d66c0_0 .net *"_s36", 0 0, L_0x24d88a0; 1 drivers
+v0x24d6760_0 .net *"_s38", 0 0, L_0x24d8900; 1 drivers
+v0x24d6880_0 .net *"_s4", 2 0, C4<111>; 1 drivers
+v0x24d6920_0 .net *"_s40", 0 0, L_0x24d89f0; 1 drivers
+v0x24d67e0_0 .net *"_s42", 0 0, L_0x24d8aa0; 1 drivers
+v0x24d6a70_0 .net *"_s44", 0 0, L_0x24d8960; 1 drivers
+v0x24d6b90_0 .net *"_s46", 0 0, L_0x24d8c40; 1 drivers
+v0x24d6c10_0 .net *"_s8", 0 0, L_0x24d6490; 1 drivers
+v0x24d6af0_0 .net "bits", 2 0, v0x24d77d0_0; 1 drivers
+v0x24d6d40_0 .net "clk", 0 0, v0x24d7850_0; 1 drivers
+v0x24d6e80_0 .net "in000", 0 0, L_0x24d79b0; 1 drivers
+v0x24d6f00_0 .net "in111", 0 0, L_0x24d7ac0; 1 drivers
+v0x24d6dc0_0 .net "restart", 0 0, v0x24d78d0_0; 1 drivers
+v0x24d7050_0 .net "sBlank", 0 0, v0x24d5c60_0; 1 drivers
+v0x24d6f80_0 .net "sBlank_next", 0 0, L_0x24d7eb0; 1 drivers
+v0x24d71b0_0 .net "sGabage", 0 0, C4<z>; 0 drivers
+v0x24d70d0_0 .net "sGarbage", 0 0, v0x24d5800_0; 1 drivers
+v0x24d7320_0 .net "sGarbage_next", 0 0, L_0x24d8b00; 1 drivers
+v0x24d7230_0 .net "sI", 0 0, v0x24d5320_0; 1 drivers
+v0x24d74a0_0 .net "sI_end", 0 0, v0x24d4e80_0; 1 drivers
+v0x24d73a0_0 .net "sI_end_next", 0 0, L_0x24d8510; 1 drivers
+v0x24d7630_0 .net "sI_next", 0 0, L_0x24d8210; 1 drivers
+L_0x24d79b0 .cmp/eq 3, v0x24d77d0_0, C4<000>;
+L_0x24d7ac0 .cmp/eq 3, v0x24d77d0_0, C4<111>;
+S_0x24d5920 .scope module, "fsBlank" "dffe" 3 43, 3 9, S_0x24acb80;
+ .timescale 0 0;
+v0x24d5a80_0 .alias "clk", 0 0, v0x24d6d40_0;
+v0x24d5b20_0 .alias "d", 0 0, v0x24d6f80_0;
+v0x24d5bc0_0 .net "enable", 0 0, C4<1>; 1 drivers
+v0x24d5c60_0 .var "q", 0 0;
+v0x24d5d10_0 .net "reset", 0 0, C4<0>; 1 drivers
+E_0x24d5a10 .event edge, v0x24d5d10_0;
+S_0x24d5470 .scope module, "fsGarbage" "dffe" 3 45, 3 9, S_0x24acb80;
+ .timescale 0 0;
+v0x24d55d0_0 .alias "clk", 0 0, v0x24d6d40_0;
+v0x24d56c0_0 .alias "d", 0 0, v0x24d7320_0;
+v0x24d5760_0 .net "enable", 0 0, C4<1>; 1 drivers
+v0x24d5800_0 .var "q", 0 0;
+v0x24d5880_0 .net "reset", 0 0, C4<0>; 1 drivers
+E_0x24d5560 .event edge, v0x24d5880_0;
+S_0x24d4fd0 .scope module, "fsI" "dffe" 3 47, 3 9, S_0x24acb80;
+ .timescale 0 0;
+v0x24d5130_0 .alias "clk", 0 0, v0x24d6d40_0;
+v0x24d5200_0 .alias "d", 0 0, v0x24d7630_0;
+v0x24d5280_0 .net "enable", 0 0, C4<1>; 1 drivers
+v0x24d5320_0 .var "q", 0 0;
+v0x24d53d0_0 .net "reset", 0 0, C4<0>; 1 drivers
+E_0x24d50c0 .event edge, v0x24d53d0_0;
+S_0x24ac800 .scope module, "fsI_end" "dffe" 3 49, 3 9, S_0x24acb80;
+ .timescale 0 0;
+v0x24aa540_0 .alias "clk", 0 0, v0x24d6d40_0;
+v0x24d4d40_0 .alias "d", 0 0, v0x24d73a0_0;
+v0x24d4de0_0 .net "enable", 0 0, C4<1>; 1 drivers
+v0x24d4e80_0 .var "q", 0 0;
+v0x24d4f30_0 .net "reset", 0 0, C4<0>; 1 drivers
+E_0x24a92e0 .event posedge, v0x24aa540_0;
+E_0x24aa130 .event edge, v0x24d4f30_0;
+    .scope S_0x24d5920;
+T_0 ;
+    %wait E_0x24d5a10;
+    %load/v 8, v0x24d5d10_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5c60_0, 0, 0;
+T_0.0 ;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x24d5920;
+T_1 ;
+    %wait E_0x24a92e0;
+    %load/v 8, v0x24d5d10_0, 1;
+    %cmpi/u 8, 0, 1;
+    %mov 8, 4, 1;
+    %load/v 9, v0x24d5bc0_0, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_1.0, 8;
+    %load/v 8, v0x24d5b20_0, 1;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5c60_0, 0, 8;
+T_1.0 ;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0x24d5470;
+T_2 ;
+    %wait E_0x24d5560;
+    %load/v 8, v0x24d5880_0, 1;
+    %jmp/0xz  T_2.0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5800_0, 0, 0;
+T_2.0 ;
+    %jmp T_2;
+    .thread T_2, $push;
+    .scope S_0x24d5470;
+T_3 ;
+    %wait E_0x24a92e0;
+    %load/v 8, v0x24d5880_0, 1;
+    %cmpi/u 8, 0, 1;
+    %mov 8, 4, 1;
+    %load/v 9, v0x24d5760_0, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_3.0, 8;
+    %load/v 8, v0x24d56c0_0, 1;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5800_0, 0, 8;
+T_3.0 ;
+    %jmp T_3;
+    .thread T_3;
+    .scope S_0x24d4fd0;
+T_4 ;
+    %wait E_0x24d50c0;
+    %load/v 8, v0x24d53d0_0, 1;
+    %jmp/0xz  T_4.0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5320_0, 0, 0;
+T_4.0 ;
+    %jmp T_4;
+    .thread T_4, $push;
+    .scope S_0x24d4fd0;
+T_5 ;
+    %wait E_0x24a92e0;
+    %load/v 8, v0x24d53d0_0, 1;
+    %cmpi/u 8, 0, 1;
+    %mov 8, 4, 1;
+    %load/v 9, v0x24d5280_0, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_5.0, 8;
+    %load/v 8, v0x24d5200_0, 1;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d5320_0, 0, 8;
+T_5.0 ;
+    %jmp T_5;
+    .thread T_5;
+    .scope S_0x24ac800;
+T_6 ;
+    %wait E_0x24aa130;
+    %load/v 8, v0x24d4f30_0, 1;
+    %jmp/0xz  T_6.0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d4e80_0, 0, 0;
+T_6.0 ;
+    %jmp T_6;
+    .thread T_6, $push;
+    .scope S_0x24ac800;
+T_7 ;
+    %wait E_0x24a92e0;
+    %load/v 8, v0x24d4f30_0, 1;
+    %cmpi/u 8, 0, 1;
+    %mov 8, 4, 1;
+    %load/v 9, v0x24d4de0_0, 1;
+    %and 8, 9, 1;
+    %jmp/0xz  T_7.0, 8;
+    %load/v 8, v0x24d4d40_0, 1;
+    %ix/load 0, 1, 0;
+    %assign/v0 v0x24d4e80_0, 0, 8;
+T_7.0 ;
+    %jmp T_7;
+    .thread T_7;
+    .scope S_0x24a6fe0;
+T_8 ;
+    %set/v v0x24d7850_0, 0, 1;
+    %end;
+    .thread T_8;
+    .scope S_0x24a6fe0;
+T_9 ;
+    %delay 5, 0;
+    %load/v 8, v0x24d7850_0, 1;
+    %inv 8, 1;
+    %set/v v0x24d7850_0, 8, 1;
+    %jmp T_9;
+    .thread T_9;
+    .scope S_0x24a6fe0;
+T_10 ;
+    %vpi_call 2 9 "$dumpfile", "ir.vcd";
+    %vpi_call 2 10 "$dumpvars", 1'sb0, S_0x24a6fe0;
+    %set/v v0x24d78d0_0, 1, 1;
+    %delay 13, 0;
+    %set/v v0x24d77d0_0, 1, 3;
+    %delay 4, 0;
+    %set/v v0x24d77d0_0, 0, 3;
+    %delay 5, 0;
+    %set/v v0x24d78d0_0, 0, 1;
+    %delay 8, 0;
+    %set/v v0x24d77d0_0, 1, 3;
+    %delay 10, 0;
+    %set/v v0x24d77d0_0, 0, 3;
+    %delay 10, 0;
+    %set/v v0x24d77d0_0, 1, 3;
+    %delay 20, 0;
+    %set/v v0x24d77d0_0, 0, 3;
+    %delay 15, 0;
+    %vpi_call 2 28 "$finish";
+    %end;
+    .thread T_10;
+    .scope S_0x24a6fe0;
+T_11 ;
+    %vpi_call 2 35 "$monitor", "Time %t: bits = %b I = %d restart = %d", $time, v0x24d77d0_0, v0x24d7520_0, v0x24d78d0_0;
+    %end;
+    .thread T_11;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "i_reader_tb.v";
+    "i_reader.v";
