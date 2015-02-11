@@ -1,0 +1,54 @@
+Grades for version committed on time
+	steering: 20.0 / 20
+		Passed test sensors=00000
+		Passed test sensors=10000
+		Passed test sensors=01000
+		Passed test sensors=11000
+		Passed test sensors=00100
+		Passed test sensors=10100
+		Passed test sensors=01100
+		Passed test sensors=11100
+		Passed test sensors=00010
+		Passed test sensors=10010
+		Passed test sensors=01010
+		Passed test sensors=11010
+		Passed test sensors=00110
+		Passed test sensors=10110
+		Passed test sensors=01110
+		Passed test sensors=11110
+		Passed test sensors=00001
+		Passed test sensors=10001
+		Passed test sensors=01001
+		Passed test sensors=11001
+		Passed test sensors=00101
+		Passed test sensors=10101
+		Passed test sensors=01101
+		Passed test sensors=11101
+		Passed test sensors=00011
+		Passed test sensors=10011
+		Passed test sensors=01011
+		Passed test sensors=11011
+		Passed test sensors=00111
+		Passed test sensors=10111
+		Passed test sensors=01111
+		Passed test sensors=11111
+		
+	extract_message: 40.0 / 40
+		
+		Test 1: CORRECT Message.
+		Test 2: CORRECT Message.
+		Test 3: CORRECT Message.
+		Test 4: CORRECT Message.
+		
+	count_ones: 40.0 / 40
+		
+		Test 1: CORRECT.
+		Test 2: CORRECT.
+		Test 3: CORRECT.
+		Test 4: CORRECT.
+		Test 5: CORRECT.
+		Test 6: CORRECT.
+		
+Total: 100.0 / 100
+
+Final Score: 100.0 / 100
