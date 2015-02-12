@@ -51,3 +51,4 @@ module l_reader(L, bits, clk, restart);
    // dffe fsBlank(sBlank, sBlank_next, clk, 1'b1, 1'b0);
     
 endmodule // l_reader
+

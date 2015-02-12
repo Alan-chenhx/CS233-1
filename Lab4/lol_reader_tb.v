@@ -19,7 +19,38 @@ module lol_reader_test;
         # 10
           bits = 3'b000; // L should be recognized after this
 
-        # 10
+        # 20
+	restart =1;
+	# 12
+	restart =0;
+	# 20
+	bits =3'b000;
+	#10
+	bits =3'b111;
+	#10
+	bits =3'b101;
+	#10
+	bits =3'b111;
+	#10
+	bits =3'b000;  //O should be recognized after this
+
+	
+	# 20
+	restart =1;
+	# 12
+	restart =0;
+	# 20
+	bits =3'b000;
+	#10
+	bits =3'b100;
+	#10
+	bits =3'b011;
+	#10
+	bits =3'b100;
+	#10
+	bits =3'b000;  //Y should be recognized after this 
+	
+	#40
           $finish;              // end the simulation
     end                      
     
