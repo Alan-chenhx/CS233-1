@@ -19,7 +19,7 @@ module lol_reader_test;
         # 10
           bits = 3'b000; // L should be recognized after this
 
-        # 20
+        # 10
 	restart =1;
 	# 12
 	restart =0;
