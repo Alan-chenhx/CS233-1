@@ -1,7 +1,6 @@
 # feel free to add or change any of the test cases
 # compiling this will only work on EWS, or on a Linux box if you scp spim.vasm over:
 # scp NETID@remlnx.ews.illinois.edu:/class/cs232/Linux/bin/spim.vasm .
-
 .text
 main:
 	addi	$6, $0, 100	# $6  =   100 (0x64)
@@ -17,3 +16,6 @@ main:
 	add	$16, $6, $13	# $16 =    99 (0x63)
 	nor	$17, $15, $7	# $17 =  -512 (0xfffffe00)
 	add	$18, $17, $15	# $18 =  -256 (0xffffff00)
+	addi    $20, $0, 100    # $20 =    100 (0x64)
+	add     $20, $20, $18   # $20 =   -156(0xffffff64)
+	

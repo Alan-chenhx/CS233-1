@@ -29,7 +29,7 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, opcode, funct)
 
     assign alu_op[0] = sub0_inst | or0_inst | xor0_inst | ori_inst | xori_inst;
     assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst;
-    assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | addi_inst | ori_inst | xori_inst; 
+    assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | ori_inst | xori_inst |andi_inst; 
 	
     assign rd_src = addi_inst | andi_inst | ori_inst | xori_inst;
  
