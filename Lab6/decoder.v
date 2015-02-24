@@ -27,4 +27,51 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     input  [5:0] opcode, funct;
     input        zero;
 
+    wire add0_inst, addi_inst, sub0_inst, and0_inst, andi_inst, or0_inst, ori_inst, nor0_inst, xor0_inst, xori_inst, bnei_inst,beqi_inst, ji_inst, jri_inst, lui_inst, slt0_inst, lwi_inst, lbui_inst, swi_inst, sbi_inst;
+    
+    assign add0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_ADD);
+    assign addi_inst = (opcode == `OP_ADDI); //don't check funct here
+    assign sub0_inst = (opcode == `OP_OTHER0) & (funct ==`OP0_SUB);
+    assign and0_inst =  (opcode == `OP_OTHER0) & (funct ==`OP0_AND);
+    assign andi_inst = (opcode == `OP_ANDI);
+    assign or0_inst  = (opcode ==`OP_OTHER0) & (funct == `OP0_OR);
+    assign ori_inst = (opcode ==`OP_ORI);
+    assign nor0_inst = (opcode ==`OP_OTHER0) & (funct == `OP0_NOR);
+    assign xor0_inst = (opcode ==`OP_OTHER0) & (funct == `OP0_XOR);
+    assign xori_inst = (opcode ==`OP_XORI);
+    assign bnei_inst = (opcode ==`OP_BNE);
+    assign beqi_inst = (opcode ==`OP_BEQ);
+    assign ji_inst = (opcode ==`OP_J);
+    assign jri_inst = (opcode ==`OP_JR);
+    assign lui_inst = (opcode ==`OP_LUI);
+    assign slt0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_SLT);
+    assign lwi_inst = (opcode ==`OP_LW);
+    assign lbui_inst = (opcode ==`OP_LBU);
+    assign swi_inst = (opcode ==`OP_SW);
+    assign sbi_inst = (opcode ==`OP_SB);
+
+    
+    
+
+    
+	
+     
+
+    assign alu_op[0] = sub0_inst | or0_inst | xor0_inst | ori_inst | xori_inst;
+    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst;
+    assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | ori_inst | xori_inst |andi_inst; 
+
+
+    
+
+
+
+	
+
+
+
+
+
+
+
 endmodule // mips_decode
