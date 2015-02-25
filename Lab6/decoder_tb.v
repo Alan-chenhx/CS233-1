@@ -14,6 +14,8 @@ module decoder_test;
         // as should all the new instructions from this week
         # 10 opcode = `OP_BEQ; zero = 0; // try a not taken beq
         # 10 opcode = `OP_BEQ; zero = 1; // try a taken beq
+	# 10 opcode = `OP_BNE; zero = 0;
+	# 10 opcode = `OP_BNE; zero = 1;
         // add more tests here!
 
         # 10 $finish;
