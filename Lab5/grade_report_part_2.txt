@@ -1,0 +1,39 @@
+Grades for version committed on time
+	arith_machine: 80.0 / 80.0
+		If shown, tuples are (PC, inst, exp) or (reg, value)
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: addi works
+			*Passed test: addi works
+			*Passed test: addi works
+			*Passed test: addi works
+			*Passed test: addi works
+			*Passed test: add works
+			*Passed test: sub works
+			*Passed test: and works
+			*Passed test: or works
+			*Passed test: xor works
+			*Passed test: nor works
+			*Passed test: addi works
+			*Passed test: andi works
+			*Passed test: ori works
+			*Passed test: xori works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+			*Passed test: reset works
+		
+Total: 80.0 / 80
+
+Final Score: 80.0 / 80
