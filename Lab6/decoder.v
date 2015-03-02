@@ -69,27 +69,13 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     assign slt = slt0_inst;
     
 
-    assign alu_src2 = addi_inst | andi_inst | ori_inst | xori_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst | bnei_inst | beqi_inst ;
-
-    assign rd_src = addi_inst | andi_inst | ori_inst | xori_inst | lui_inst | lwi_inst | lbui_inst | beqi_inst | bnei_inst;
-
+    assign alu_src2 = ~(opcode == `OP_OTHER0 | bnei_inst | beqi_inst);
+    assign rd_src = ~(opcode == `OP_OTHER0 | bnei_inst | beqi_inst);
 
     assign non_except = add0_inst | addi_inst | sub0_inst | and0_inst | andi_inst | or0_inst | ori_inst | nor0_inst | xor0_inst | xori_inst | lui_inst | slt0_inst | lwi_inst | lbui_inst | beqi_inst | bnei_inst | ji_inst | jr0_inst | swi_inst | sbi_inst;
 
     assign writeenable = add0_inst | addi_inst | sub0_inst | and0_inst | andi_inst | or0_inst | ori_inst | nor0_inst | xor0_inst | xori_inst | lui_inst | slt0_inst | lwi_inst | lbui_inst ; 
 
     assign except = ~non_except;
-
-   
-
-
-
-	
-
-
-
-
-
-
 
 endmodule // mips_decode

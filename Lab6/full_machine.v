@@ -125,4 +125,3 @@ module shift_leftBy2(out, in);
         assign out[0] = 0;
 
 endmodule
-
