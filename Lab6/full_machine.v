@@ -1,4 +1,3 @@
-
 // full_machine: execute a series of MIPS instructions from an instruction cache
 //
 // except (output) - set to 1 when an unrecognized instruction is to be executed.

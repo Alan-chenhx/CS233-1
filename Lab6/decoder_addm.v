@@ -27,7 +27,8 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     output       mem_read, word_we, byte_we, byte_load, lui, slt, addm;
     input  [5:0] opcode, funct;
     input        zero;
-    wire add0_inst, addi_inst, sub0_inst, and0_inst, andi_inst, or0_inst, ori_inst, nor0_inst, xor0_inst, xori_inst, bnei_inst,beqi_inst, ji_inst, jr0_inst, lui_inst, slt0_inst, lwi_inst, lbui_inst, swi_inst, sbi_inst, non_except, temp, addm_inst;
+    wire add0_inst, addi_inst, sub0_inst, and0_inst, andi_inst, or0_inst, ori_inst, nor0_inst, xor0_inst, xori_inst, bnei_inst,beqi_inst, ji_inst, jr0_inst, lui_inst, slt0_inst, lwi_inst, lbui_inst, swi_inst, sbi_inst, addm_inst;
+    wire non_except;
     
     assign add0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_ADD);
     assign addi_inst = (opcode == `OP_ADDI); //don't check funct here
@@ -54,10 +55,10 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
 
 
     assign alu_op[0] = sub0_inst | or0_inst | xor0_inst | ori_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst;
-    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst;
+    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst | addm_inst;
     assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | ori_inst | xori_inst |andi_inst; 
 
-    assign control_type[0] = beqi_inst | bnei_inst | jr0_inst;
+    assign control_type[0] = (beqi_inst & zero) | (bnei_inst & zero) | jr0_inst;
     assign control_type[1] = ji_inst | jr0_inst;
 
     assign mem_read = lwi_inst | lbui_inst;
