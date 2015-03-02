@@ -54,7 +54,7 @@ module full_machine(except, clk, reset);
    
     data_mem memD(data_out, out, rtData, word_we, byte_we, clk, reset);
     instruction_memory inMem(inst, PC[31:2]);
-    	 
+    assign imm16 = inst[15:0];
     assign imm32 = {{16{imm16[15]}}, imm16};
  
     shift_leftBy2 shift(branchOffset, imm32[29:0]);
@@ -112,3 +112,4 @@ module shift_leftBy2(out, in);
         assign out[0] = 0;
 
 endmodule
+

@@ -53,7 +53,7 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
 
 
     assign alu_op[0] = sub0_inst | or0_inst | xor0_inst | ori_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst;
-    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst;
+    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst ;
     assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | ori_inst | xori_inst |andi_inst; 
 
     assign control_type[0] = beqi_inst | bnei_inst | jr0_inst;
