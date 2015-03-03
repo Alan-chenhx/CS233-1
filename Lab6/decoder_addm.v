@@ -27,59 +27,53 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     output       mem_read, word_we, byte_we, byte_load, lui, slt, addm;
     input  [5:0] opcode, funct;
     input        zero;
-    wire add0_inst, addi_inst, sub0_inst, and0_inst, andi_inst, or0_inst, ori_inst, nor0_inst, xor0_inst, xori_inst, bnei_inst,beqi_inst, ji_inst, jr0_inst, lui_inst, slt0_inst, lwi_inst, lbui_inst, swi_inst, sbi_inst, addm_inst;
-    wire non_except;
+
+    wire add =  (opcode==`OP_OTHER0 & funct==`OP0_ADD);
+    wire sub =  (opcode==`OP_OTHER0  & funct==`OP0_SUB);
+    wire andd = (opcode==`OP_OTHER0 & funct==`OP0_AND);
+    wire ord =  (opcode==`OP_OTHER0  & funct==`OP0_OR);
+    wire nord = (opcode==`OP_OTHER0 & funct==`OP0_NOR);
+    wire xord = (opcode==`OP_OTHER0 & funct==`OP0_XOR);
     
-    assign add0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_ADD);
-    assign addi_inst = (opcode == `OP_ADDI); //don't check funct here
-    assign sub0_inst = (opcode == `OP_OTHER0) & (funct ==`OP0_SUB);
-    assign and0_inst =  (opcode == `OP_OTHER0) & (funct ==`OP0_AND);
-    assign andi_inst = (opcode == `OP_ANDI);
-    assign or0_inst  = (opcode ==`OP_OTHER0) & (funct == `OP0_OR);
-    assign ori_inst = (opcode ==`OP_ORI);
-    assign nor0_inst = (opcode ==`OP_OTHER0) & (funct == `OP0_NOR);
-    assign xor0_inst = (opcode ==`OP_OTHER0) & (funct == `OP0_XOR);
-    assign xori_inst = (opcode ==`OP_XORI);
-    assign bnei_inst = (opcode ==`OP_BNE);
-    assign beqi_inst = (opcode ==`OP_BEQ);
-    assign ji_inst = (opcode ==`OP_J);
-    assign jr0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_JR);
-    assign lui_inst = (opcode ==`OP_LUI);
-    assign slt0_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_SLT);
-    assign lwi_inst = (opcode ==`OP_LW);
-    assign lbui_inst = (opcode ==`OP_LBU);
-    assign swi_inst = (opcode ==`OP_SW);
-    assign sbi_inst = (opcode ==`OP_SB);
-    assign addm_inst = (opcode ==`OP_OTHER0) & (funct ==`OP0_ADDM);
+    wire addi=(opcode==`OP_ADDI);
+    wire andi=(opcode==`OP_ANDI);
+    wire ori=(opcode==`OP_ORI);
+    wire xori=(opcode==`OP_XORI);
 
+     
+    wire beq = (opcode == `OP_BEQ);
+    wire bne = (opcode == `OP_BNE);
+    wire j = (opcode ==  `OP_J);   
+    wire jr = (opcode == `OP_OTHER0 & funct == `OP0_JR);  
+    wire lw =  (opcode == `OP_LW);
+    wire lbu = (opcode == `OP_LBU); 
+    wire sw = (opcode == `OP_SW);
+    wire sb = (opcode == `OP_SB);
+ 
+    assign  addm = (opcode ==`OP_OTHER0& funct == `OP0_ADDM);
+    assign alu_op[2]=andd|andi|ord|ori|nord|xord|xori;
+    assign alu_op[1]=add|addi|sub|nord|xord|xori|slt|lw|lbu|sw|sb|bne|beq|addm;
+    assign alu_op[0]=sub|ord|ori|xord|xori|slt|bne|beq;
+    assign rd_src=addi|andi|ori|xori|lui|lw|lbu;
+    assign alu_src2= addi|andi|ori|xori|lw|lbu|sw|sb;
 
+    assign writeenable = add|sub|andd|ord|xord|nord|addi|andi|ori|xori|lw|lbu |lui| slt|addm;
+    assign except=~(add|sub|andd|ord|xord|nord|addi|andi|ori|xori| lui|slt|bne|beq||j|jr|lw|sw|lbu|sb|addm); // need to update
+     //assign writeenable = ~except;
+    assign lui = opcode == `OP_LUI;
+    assign slt = opcode ==`OP_OTHER0 & funct == `OP0_SLT;
+ 
+  
 
-    assign alu_op[0] = sub0_inst | or0_inst | xor0_inst | ori_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst;
-    assign alu_op[1] = add0_inst | sub0_inst | nor0_inst | xor0_inst | addi_inst | xori_inst | beqi_inst | bnei_inst | slt0_inst | lwi_inst | lbui_inst | swi_inst | sbi_inst | addm_inst;
-    assign alu_op[2] = and0_inst | or0_inst | nor0_inst | xor0_inst | ori_inst | xori_inst |andi_inst; 
-
-    assign control_type[0] = (beqi_inst & zero) | (bnei_inst & zero) | jr0_inst;
-    assign control_type[1] = ji_inst | jr0_inst;
-
-    assign mem_read = lwi_inst | lbui_inst | addm_inst;
-
-    assign word_we = swi_inst;
-    assign byte_we = sbi_inst;
-
-    assign byte_load = lbui_inst;
-    assign lui = lui_inst;
-    assign slt = slt0_inst;
-    
-
-    assign alu_src2 = ~(opcode == `OP_OTHER0 | bnei_inst | beqi_inst);
-
-    assign rd_src =  ~(opcode == `OP_OTHER0 | bnei_inst | beqi_inst);
-
-
-    assign non_except = add0_inst | addi_inst | sub0_inst | and0_inst | andi_inst | or0_inst | ori_inst | nor0_inst | xor0_inst | xori_inst | lui_inst | slt0_inst | lwi_inst | lbui_inst | beqi_inst | bnei_inst | ji_inst | jr0_inst | swi_inst | sbi_inst | addm_inst;
-
-    assign writeenable = add0_inst | addi_inst | sub0_inst | and0_inst | andi_inst | or0_inst | ori_inst | nor0_inst | xor0_inst | xori_inst | lui_inst | slt0_inst | lwi_inst | lbui_inst | addm_inst; 
-
-    assign except = ~non_except;
+    assign control_type[0] = (bne & ~zero) | (beq & zero) | jr;
+    assign control_type[1] = j | jr;
+ 
+    assign mem_read = lw | lbu; //load from memory to register
+    assign word_we =  sw; // transfer word from register to memory;
+    assign byte_we =  sb;
+    assign byte_load = lbu;
+ 
 
 endmodule // mips_decode
+
+

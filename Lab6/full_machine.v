@@ -11,11 +11,11 @@ module full_machine(except, clk, reset);
   
     wire [31:0] inst;  
     wire [31:0] PC;  
-    wire overflow, zero, negative;
+    wire zero, negative;
     wire [31:0] nextPC, branchOffset, PCADD, branchADD, jump;
     wire [31:0] rsData, rtData, rdData,data_Mux, luiI, mem_read, slt_read,neg, data_out, byte_read,zeros,out, B;
-    wire [15:0] imm16;
-    wire [31:0] imm32;
+    //wire [15:0] imm16;
+    wire [31:0] imm32, out2, out3, lui_out, addm_out, addr;
     wire [1:0] control_type;
     wire [2:0] alu_op;
     wire [4:0] Rdest;
@@ -23,12 +23,15 @@ module full_machine(except, clk, reset);
     wire writeenable, memRead, byte_we,word_we,byte_load,slt,lui, rd_src, alu_src2, addm;
     // DO NOT comment out or rename this module
     // or the test bench will break
-    register #(32) PC_reg(PC, nextPC, clk,1,reset /* connect signals */);
+
+
+
+    register #(32) PC_reg(PC, nextPC, clk,1'b1,reset /* connect signals */);
     
-    alu32 add4(PCADD, , , , PC, 32'h4, 010); //pc add 4 instruction
-    alu32 offset(branchADD, , , ,PCADD, branchOffset, 010);
+    alu32 add4(PCADD, , , , PC, 32'h4, 3'b010); //pc add 4 instruction
+    alu32 offset(branchADD, , , ,PCADD, branchOffset, 3'b010);
     assign jump[31:28] = PC[31:28];
-    assign jump[27:2] = inst[25:0];
+    assign jump[27:2] = inst[25:0]; 
     assign jump[0] = 0;
     assign jump[1] = 0;
     assign luiI[31:16] = inst[15:0];
@@ -38,7 +41,11 @@ module full_machine(except, clk, reset);
     assign neg[0] = negative;
     assign neg[31:1] = zeros[31:1];
     assign data_Mux[31:8] = zeros[31:8];
-    mux2v #(32) Mux1r(rdData, mem_read, luiI, lui);
+
+
+
+
+    mux2v #(32) Mux1r(lui_out, mem_read, luiI, lui);
     mux2v #(32) Mux2b(byte_read, data_out, data_Mux, byte_load);
     mux4v #(8) Mux4d(data_Mux[7:0], data_out[7:0], data_out[15:8], data_out[23:16],data_out[31:24], out[1:0]);
     mux2v #(32) Mux2m(mem_read, slt_read, byte_read,memRead);
@@ -52,16 +59,22 @@ module full_machine(except, clk, reset);
     // or the test bench will break
     regfile rf (rsData,rtData, inst[25:21], inst[20:16], Rdest, rdData, writeenable, clk, reset /* connect signal wires */);
    
-    data_mem memD(data_out, out, rtData, word_we, byte_we, clk, reset);
+    data_mem memD(data_out, addr, rtData, word_we, byte_we, clk, reset);
     instruction_memory inMem(inst, PC[31:2]);
-    assign imm16 = inst[15:0];
-    assign imm32 = {{16{imm16[15]}}, imm16};
+    //assign imm16 = inst[15:0];
+    assign imm32[31:16] = zeros[31:16];
+    assign imm32[15:0] = inst[15:0];
  
     shift_leftBy2 shift(branchOffset, imm32[29:0]);
     mux2v #(5) a1(Rdest, inst[15:11], inst[20:16], rd_src);
     mux2v #(32) a2(B, rtData, imm32, alu_src2);
+ 
+    mux2v #(32) a3(addr, out, rsData, addm);
+    mux2v #(32) alu3(rdData, lui_out, addm_out, addm);    
     
-    alu32 #(32) alu1(out, overflow, zero,negative, rsData, B, alu_op);
+    alu32 #(32) alu2(addm_out, , , ,data_out,rtData, 3'b010); 
+    alu32 #(32) alu1(out,  , zero,negative, rsData, B, alu_op);
+    //alu32 #(32) alu1(out,  , zero,negative, rsData, B, alu_op);
 
 assign zeros[0] = 0; 
 assign zeros[1] = 0;
