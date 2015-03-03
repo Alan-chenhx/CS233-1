@@ -34,13 +34,10 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     wire ord =  (opcode==`OP_OTHER0  & funct==`OP0_OR);
     wire nord = (opcode==`OP_OTHER0 & funct==`OP0_NOR);
     wire xord = (opcode==`OP_OTHER0 & funct==`OP0_XOR);
-    
-    wire addi=(opcode==`OP_ADDI);
-    wire andi=(opcode==`OP_ANDI);
-    wire ori=(opcode==`OP_ORI);
-    wire xori=(opcode==`OP_XORI);
-
-     
+    wire addi= (opcode==`OP_ADDI);
+    wire andi= (opcode==`OP_ANDI);
+    wire ori= (opcode==`OP_ORI);
+    wire xori= (opcode==`OP_XORI);
     wire beq = (opcode == `OP_BEQ);
     wire bne = (opcode == `OP_BNE);
     wire j = (opcode ==  `OP_J);   
@@ -63,8 +60,6 @@ module mips_decode(alu_op, writeenable, rd_src, alu_src2, except, control_type,
     assign lui = opcode == `OP_LUI;
     assign slt = opcode ==`OP_OTHER0 & funct == `OP0_SLT;
  
-  
-
     assign control_type[0] = (bne & ~zero) | (beq & zero) | jr;
     assign control_type[1] = j | jr;
  
