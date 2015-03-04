@@ -20,8 +20,24 @@
 
 .globl vert_strncmp
 vert_strncmp:
+	li $t0, $0 ##initilizied the word_iter to 0
+	la $t1, num_rows ##load the address of num_rows to $t1
+	lw $t1, 0($t1) ##get the num of columns in $t1
+	##lb $t2, 0($t1) ##get the actual content in num_rows[0] and store it in $t2
+	move $t3,$a1 ##move the value store in a1 to t3 (i)
+start_loop: 
+	bge  $t3, $t1, done1 ##compare i and num_rows
+	add $t4, $a0, $t0 ##get the address of the word[word_iter]
+	lb $t4, 0($t4) ##get the actual content of the word
+	
+	
+	
+
 	jr	$ra
 
+	done1: lb $v0, $zero
+	       jr $ra
+	
 
 ## // assumes the word is at least 4 characters
 ## int
