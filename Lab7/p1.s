@@ -70,21 +70,21 @@ horiz_strncmp:
 
 str_loop: 
 	bgt $a1, $a2, done1   ##check for the condition
-	##la $t1, puzzle                  ##load the address of the puzzle 
-	##lw $t1, 0($t1)                  ##get the first element of the puzzle
-	##la $t2, word	                ## get the address of the word
-	##lw $t2, 0($a0)	                ## get the first element of the word 
+	##la $t1, puzzle      ##load the address of the puzzle 
+	##lw $t1, 0($t1)      ##get the first element of the puzzle
+	##la $t2, word	      ## get the address of the word
+	##lw $t2, 0($a0)	  ## get the first element of the word 
 
-	add $t3, $t1, $a1               ##the pointer the puzzle[start]
+	add $t3, $t1, $a1       ##the pointer the puzzle[start]
 	lb $t3, 0($t3)			##get the actual content in the $t3
-	add $t4, $a0, $t0               ##the pointer to the word[word_iter]
-	lb $t4, 0($t4)                  ##get the actual word in word[word_iter]
-	bne $t3, $t4, done1             ##if they are equal, return immediately 
-	add $t0,$t0, 1                  ##add one to word_iter
-	add $t4, $a0, $t0               ##get the content at word[word_iter+1] 
+	add $t4, $a0, $t0       ##the pointer to the word[word_iter]
+	lb $t4, 0($t4)          ##get the actual word in word[word_iter]
+	bne $t3, $t4, done1     ##if they are equal, return immediately 
+	add $t0,$t0, 1          ##add one to word_iter
+	add $t4, $a0, $t0       ##get the content at word[word_iter+1] 
 	lb  $t4, 0($t4)
 
-	beq $t4, $zero, done2              ##if word[word_iter] == 0, return start
+	beq $t4, $zero, done2           ##if word[word_iter] == 0, return start
 	add $a1, $a1, 1                 ##increment the value of start
 	j str_loop                      ##go back to the beginning of the loop
 	jr $ra
