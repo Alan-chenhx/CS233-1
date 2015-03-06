@@ -20,24 +20,70 @@
 
 .globl vert_strncmp
 vert_strncmp:
-	li $t0, $0 ##initilizied the word_iter to 0
-	la $t1, num_rows ##load the address of num_rows to $t1
-	lw $t1, 0($t1) ##get the num of columns in $t1
-	##lb $t2, 0($t1) ##get the actual content in num_rows[0] and store it in $t2
-	move $t3,$a1 ##move the value store in a1 to t3 (i)
-start_loop: 
-	bge  $t3, $t1, done1 ##compare i and num_rows
-	add $t4, $a0, $t0 ##get the address of the word[word_iter]
-	lb $t4, 0($t4) ##get the actual content of the word
-	
-	
-	
 
-	jr	$ra
+sub $sp, $sp, 28
+sw $ra, 0($sp)  ##preserve for ra (return)
+sw $s0, 4($sp)  ##preserve for $a0
+sw $s1, 8($sp)	##preserve for a1
+##sw $s2, 12($sp)	##preserve for a2
+sw $s3, 16($sp) ##preserve for word_iter
+sw $s4, 20($sp) ##preserve for num_rows
+sw $s5, 24($sp) ##preserve for num_columns
 
-	done1: lb $v0, $zero
-	       jr $ra
-	
+move $s0, $a0  ##word
+move $s1, $a1  ##start_i
+##move $s2, $a2  ##int j
+
+
+li $s3, 0   #word_iter
+la $s4, num_rows #get the address of num_rows
+lw $s4, 0($s4)   #get the num_rows
+
+add $a0, $s1, $0  ##set i = start_i set i in the $a0
+move $a1, $a2 ## set j in the $a1
+
+loop_s:
+bge $a0, $s4, done_1 ##check the for loop condition 
+jal get_character   ##call the function
+add $t1, $s3, $s0  ##get the address of the word[word_iter]  it is &
+lb $t1, 0($t1)  ##get the character of the word[word_iter]
+bne $v0, $t1, done_1  ##compare the condition
+add $s3, $s3, 1  ##increment the word_iter counter
+add $t2, $s3, $s0  ##get the address of the word[word_iter+1]  it is &
+lb $t2, 0($t2)
+beq $t2, $0, done_2
+j loop_s
+
+jr $ra
+
+
+done_1:
+li $v0, 0   ##set the stack pointer originally 
+        lw      $ra, 0($sp)
+        lw      $s0, 4($sp)
+        lw      $s1, 8($sp)
+        lw      $s2, 12($sp)
+        lw      $s3, 16($sp)
+        lw      $s4, 20($sp)
+        lw      $s4, 24($sp)
+        add     $sp, $sp, 28
+        jr      $ra
+
+done_2: 
+##li $v0,0  ##set the stack pointer originally  
+mul $v0, $a0, $s5
+add $v0, $v0, $a1
+lw      $ra, 0($sp)
+        lw      $s0, 4($sp)
+        lw      $s1, 8($sp)
+        lw      $s2, 12($sp)
+        lw      $s3, 16($sp)
+        lw      $s4, 20($sp)
+        lw      $s4, 24($sp)
+        add     $sp, $sp, 28
+	jr      $ra
+
+
 
 ## // assumes the word is at least 4 characters
 ## int
@@ -79,4 +125,38 @@ start_loop:
 
 .globl horiz_strncmp_fast
 horiz_strncmp_fast:
+	sub $sp, $sp,
+	sw $ra, 0($sp)  ##preserve for ra (return address)
+	sw $s0, 4($sp)  ##preserve for $a0 (word)
+        sw $s1, 8($sp)  ##preserve for $cmp_w[0]
+	sw $s2, 12($sp) ##preserve for $cmp_w[1]
+	sw $s3, 16($sp) ##preserve for $cmp_w[2]
+	sw $s4, 20[$sp) ##preserve for $cmp_w[2]
+
+	##sw $s1, 8($sp)	##preserve for 
+
+	li $v0, 0
+	move $t1, $a0            	##let $t1 be x in this case	
+	move $s1, $t0            	##store x into cmp_w[0]
+	and $s2, $t0, 0x00ffffff   	##store x & 0x00ffffff into cmp_w[1]
+	and $s3, $t0, 0x0000ffff	##store x & 0x0000ffff into cmp_w[2]
+	and $s4, $t0, 0x000000ff  	##store x & 0x000000ff into cmp_w[3]
+	
+
+	lw $t2, num_rows   ##store the num_rows in $t2
+	lw $t3, num_columns ##store the num_columns in $t3
+	li $t4, 0          ##store the value 0 in $t4, initilized for i
+for_loop1:	
+	bge $t4, $t3, done_1 
+	
+	
+	
+	 
+	
+
+
 	jr	$ra
+
+
+done_1:
+	jr $ra
