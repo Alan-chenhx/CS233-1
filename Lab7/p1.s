@@ -21,7 +21,6 @@ get_character:
 
 	##final: 
 	##lbu $v0, 0($t0)
-
 	##jr	$ra
 
 	la $t0, num_columns

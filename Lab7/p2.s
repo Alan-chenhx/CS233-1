@@ -21,68 +21,79 @@
 .globl vert_strncmp
 vert_strncmp:
 
-		sub 		$sp, $sp, 24	##preserve stack pointer for later use 
+		sub 		$sp, $sp, 28	##preserve stack pointer for later use 
 		sw 		$ra, 0($sp)  	##preserve for ra (return)
 		sw 		$s0, 4($sp)  	##preserve for $a0  word
-		sw 		$s1, 8($sp)  	##preserve for $a1  start_i
-		sw 		$s3, 12($sp) 	##preserve for word_iter
-		sw 		$s4, 16($sp) 	##preserve for num_rows
-		sw 		$s2, 20($sp) 	##preserve for num_columns
+		sw 		$s1, 8($sp)  	##preserve for $a1  i
+		sw 		$s2, 12($sp) 	##preserve for $a2  j
+		sw 		$s3, 16($sp) 	##preserve for word_iter
+		sw 		$s4, 20($sp) 	##preserve for num_rows
+		sw 		$s5, 24($sp)    ##preserve for num_columns
 
-		move 		$s0, $a0  	##word
-		move 		$s1, $a1 	##start_i
+		li 		$s3, 0  	##initialized word_liter to 0
+		lw 		$s4, num_rows 	##load the number of rows in $s4
+		lw 		$s5, num_columns ##load the number of columns in $s5
+		
+		move 		$s1, $a1   	##set int i = start_i
+		move 		$s2, $a2	##return 
+		li 		$v0, 0 		##initialized the return value to 0
+		move		$s0, $a0        ##copy the register $a0 (word) to the register $s0 ---  word		
 
-
-
-		li 		$s3, 0   	#word_iter
-		la 		$s4, num_rows 	#get the address of num_rows
-		lw 		$s4, 0($s4)   	#get the num_rows
-
-		move		$a0, $s1 	##set i = start_i set i in the $a0
-		move 		$a1, $a2 	## set j in the $a1
-
-loop_s:
-		bge 	$a0, $s4, done_1 	##check the for loop condition 
-		jal 	get_character   	##call the function
-		add 	$t1, $s3, $s0  		##get the address of the word[word_iter]  it is &
-		lb 	$t1, 0($t1)  		##get the character of the word[word_iter]
-		bne 	$v0, $t1, done_1  	##compare the condition
-		add 	$s3, $s3, 1  		##increment the word_iter counter
-		add 	$t2, $s3, $s0  		##get the address of the word[word_iter+1]  it is &
-		lb 	$t2, 0($t2)		##get the actual content at the beginning of the word[word_iter+1] 
-		beq 	$t2, $0, done_2		##check the condition  word[word_iter + 1] == '\0'
-		add     $a0, $a0, 1		##increment the i by one 
-		j 	loop_s			##jump back to the loop 
-
-		jr 	$ra
+	loop_1: 
+		bge		$s1, $s4, done_1
+		move 		$a0, $s1  	##copy the value i to the register $a0
+		move 		$a1, $s2 	##copy the value j to the register $a1
+		jal		get_character	##call the function get_character
+		add		$t0, $s0, $s3   ##get the address of the word[word_iter]
+		lb		$t0, 0($t0)     ##get the actual character in  the word[word_iter]
+		beq 		$v0, $t0, done_2 ##if they are equal, we do the second if condition
+		li		$v0, 0		##if get_character(i, j) != word[word_iter] return 0 
 
 
-done_1:
-		li 	$v0, 0   ##set the stack pointer originally 
-        	lw      $ra, 0($sp)
-        	lw      $s0, 4($sp)
-        	lw      $s1, 8($sp)
-        	lw      $s3, 16($sp)
-        	lw      $s4, 20($sp)
-        	lw      $s4, 24($sp)
-        	add     $sp, $sp, 24
-        	jr      $ra
-
-done_2: 
-##li $v0,0  ##set the stack pointer originally  
-		mul     $v0, $a0, $s2
-		add     $v0, $v0, $a1
 		lw      $ra, 0($sp)
         	lw      $s0, 4($sp)
         	lw      $s1, 8($sp)
+        	lw      $s2, 12($sp)
         	lw      $s3, 16($sp)
         	lw      $s4, 20($sp)
-        	lw      $s4, 24($sp)
-        	add     $sp, $sp, 24
-		jr      $ra
+		lw	$s5, 24($sp)
+        	add     $sp, $sp, 28
+		jr $ra 
 
 
+	done_1:
+		lw      $ra, 0($sp)
+        	lw      $s0, 4($sp)
+        	lw      $s1, 8($sp)
+        	lw      $s2, 12($sp)
+        	lw      $s3, 16($sp)
+        	lw      $s4, 20($sp)
+		lw	$s5, 24($sp)
+        	add     $sp, $sp, 28
+		jr	$ra
+	
+	done_2:
+		add 	$s3, $s3, 1  	##increment word_iter by one
+		add	$t1, $s3, $s0   ##get the address of word[word_iter + 1]
+		lb	$t1, 0($t1)	##get the word at the position word[word_iter +1 ]
+		bne	$t1, $0, done_3  ##if they are not equal do done_3
+		mul	$v0, $s1, $s5   ##multily the i * num_columns
+		add	$v0, $v0, $s2   ##get the number i*num_columns + j and store it in the register $v0
 
+		lw      $ra, 0($sp)
+        	lw      $s0, 4($sp)
+        	lw      $s1, 8($sp)
+        	lw      $s2, 12($sp)
+        	lw      $s3, 16($sp)
+        	lw      $s4, 20($sp)
+		lw	$s5, 24($sp)
+        	add     $sp, $sp, 28
+		jr	$ra		##return 
+
+
+	done_3:
+		add	$s1, $s1, 1	##increment i by one
+		j	loop_1
 
 ## // assumes the word is at least 4 characters
 ## int
@@ -100,12 +111,12 @@ done_2:
 ##         // treat the row of chars as a row of ints
 ##         unsigned* array = (unsigned*)(puzzle + i * num_columns);
 ##         for (int j = 0; j < num_columns / 4; j++) {
-##             unsigned cur_word = array[j];
+##             unsigned cur_word = array[j];   ##j need to multiply by four 
 ##             int start = i * num_columns + j * 4;
 ##             int end = (i + 1) * num_columns - 1;
 ## 
 ##             // check each offset of the word
-##             for (int k = 0; k < 4; k++) {
+##             for (int k = 0; k < 4; k++) {		##multiply k by 4
 ##                 // check with the shift of current word
 ##                 if (cur_word == cmp_w[k]) {
 ##                     // finish check with regular horiz_strncmp
@@ -124,7 +135,9 @@ done_2:
 
 .globl horiz_strncmp_fast
 horiz_strncmp_fast:
-			sub 		$sp, $sp, 40
+
+		
+			sub 		$sp, $sp, 36
 			sw 		$ra, 0($sp)  ##preserve for ra (return address)
 			sw 		$s0, 4($sp)  ##preserve for $a0 (word)
     			sw 		$s1, 8($sp)  ##preserve for $cmp_w[0]
@@ -132,95 +145,118 @@ horiz_strncmp_fast:
 			sw 		$s3, 16($sp) ##preserve for cmp_w[2]
 			sw 		$s4, 20($sp) ##preserve for cmp_w[3]
 			sw 		$s5, 24($sp) ##preserve for i
-			sw 		$s6, 24($sp) ##preserve for j
-			sw 		$s7, 28($sp) ##preserve for k
-			##sw $s1, 8($sp)	##preserve for 
-
-			li 		$s5, 0 ##initilized i to 0
-			li 		$s6, 0 ##initilized j to 0
-			li 		$s7, 0 ##initilized k to 0
-
-			move 	$t1, $a0            	##let $t1 be x in this case	
-			move 	$s1, $t1            	##store x into cmp_w[0]
-			and 	$s2, $t1, 0x00ffffff   	##store x & 0x00ffffff into cmp_w[1]
-			and 	$s3, $t1, 0x0000ffff	##store x & 0x0000ffff into cmp_w[2]
-			and 	$s4, $t1, 0x000000ff  	##store x & 0x000000ff into cmp_w[3]
-	
-
-			##li $t4, 0          ##store the value 0 in $t4, initilized for i
-for_loop1:	
-		lw 	$t2, num_rows  	 	##store the num_rows in $t2
-		lw 	$t3, num_columns 	##store the num_columns in $t3
-		bge 	$s5, $t2, done_one
-		lw 	$t4, puzzle
-		##mul     $t5, $s5, 4
-		mul 	$t5, $t3, $s5 		##get the value of i*num_columns
-		add 	$t4, $t4, $t5 		##get the value of puzzle + i* num_columns-- array
-		div 	$t5, $t3, 4  		##get the value num_columns/4 and store it in $t5
-for_loop2:	
-		bge 	$s6, $t5, done_two 	##check the condition for the middle loop
-		mul 	$t0, $s6, 4       	##increment $t0 by four 
-		add 	$t0, $t0, $t4  		##get the address of array[j]   array + j in address
-		lw  	$t0, 0($t0)   		##get the content of array[j] ---- cur_word
-		mul 	$t4, $t3, $s5  		##get the value of i*num_columns and store it in $t4
-		mul 	$t5, $s6, 4 		##get the value of j*4 and store it in $t5  
-		add 	$t4, $t4, $t5  		##get the sum of i*num_columns + j*4 and store it in $t4 --- start
-		add 	$t5, $s5, 1 		##add 1 to i and store it in $t5
-		mul 	$t5, $t5, $t3  		##int end = (i + 1) * num_columns 
-		sub 	$t5, $t5, 1   		##int end = (i + 1) * num_columns - 1 -- end
-for_loop3:
-		bge 	$s7, 4, done_three  	##check the condition for the inner for_loop3
-		mul 	$t7, $s7, 4   		##get the number of blocks need to add to the cmp_w, each is 4 byte
-		add 	$t7, $s1, $t7  		## add it to the cmp_w, to get the address of that memory address
-		lw 	$t7, 0($t7)   		##load the actual 4 byte content in that position
-		bne 	$t7, $t0, done_four  	##check the condition for the if statement
-		add 	$a1, $t4, $s7  		## get the value for start + k, and store it in $a1
-		move 	$a2, $t5  		## store end to $a2
-		jal 	horiz_strncmp
-		beq 	$v0, 0, done_four  	##the return value from the calling function is already in $v0
-
-		lw      $ra, 0($sp)
-    		lw      $s0, 4($sp)
-    		lw      $s1, 8($sp)
-    		lw      $s2, 12($sp)
-    		lw      $s3, 16($sp)
-    		lw      $s4, 20($sp)
-    		lw      $s4, 24($sp)
-    		lw      $s5, 28($sp)
-    		lw      $s6, 32($sp)
-    		lw	$s7, 36($sp)
-
-    		add     $sp, $sp, 40
-		jr 		$ra
-
-done_one:
+			sw 		$s6, 28($sp) ##preserve for j
+			sw 		$s7, 32($sp) ##preserve for k
+			
+			
+			lw		$a0, 0($a0)
+			move 		$s0, $a0		##store the in $s0 
 		
-		li 	$v0, 0 ##initilized return value to 0
-		lw      $ra, 0($sp)
- 	       	lw      $s0, 4($sp)
-        	lw      $s1, 8($sp)
-        	lw      $s2, 12($sp)
-        	lw      $s3, 16($sp)
-        	lw      $s4, 20($sp)
-        	lw      $s4, 24($sp)
-        	lw      $s5, 28($sp)
-        	lw      $s6, 32($sp)
-        	lw	$s7, 36($sp)
-
-        	add     $sp, 	$sp, 40
-		jr 	$ra
-
-done_two:
-		add 	$s5, $s5, 1  ##increment i by one
-		j 	for_loop1
-
-done_three:
-		add 	$s6, $s6, 1  ##increment j by one
-		j 	for_loop2
-
-done_four:
-		srl 	$t0, $t0, 8   ## cur_word right shift by 8 bits
-		add 	$s7, $s7, 1  ##increment k by one
-		j 	for_loop3
+			move		$t0, $s0		## move *word to $t0, which is ----- x
+			move		$s1, $t0		## assgin cmp_w[0] == x
+			and		$s2, $t0, 0x00ffffff 	## assign cmp_w[1] == x & 0x00ffffff
+			and		$s3, $t0, 0x0000ffff	## assign cmp_w[2] == x & 0x0000ffff
+			and		$s4, $t0, 0x000000ff	## assign cmp_w[3] == x & 0x000000ff
 
 
+
+			
+			lw		$t0, num_rows		## get the number of rows and store it in $t0
+			lw		$t1, num_columns	## get the number of columns and store it in $t1
+			
+			li 		$s5, 0			##initilized i to 0
+			li		$s6, 0			##initilized j to 0
+			li		$s7, 0			##initilized k to 0
+
+	loop_first:
+			bgt		$s5, $t0, done_one	##reutrn 0 if this is true
+			lw		$t2, puzzle		##get the address of puzzle
+			mul		$t3, $s5, $t1		##get the address i * num_columns
+			add		$t3, $t2, $t3		##get the address i * num_columns + puzzle   ----- array
+
+
+			div		$t2, $t1, 4		##divided the num_columns by four   reuse register 2
+
+	loop_second:			
+			bgt		$s6, $t2, done_two	##check the loop2 condition
+			mul		$t4, $s6, 4		##since it is unsinged which treat it as an inter, need to multiply $s6 by four
+			add		$t4, $t4, $t3		## unsigned cur_word = array[j];  ----- cur_word
+			mul		$t5, $t1, $s5		##get the value of i * num_columns
+			mul		$t6, $s6, 4		##get the value of j *4  ---- $s6 can be reused
+			add		$t5, $t5, $t6		##get the sum of $t5 and $t6  -- -- start
+			add		$t6, $s5, 1		##get i + 1
+			mul		$t6, $t6, $t1  		##get (i + 1) * num_columns
+			sub		$t6, $t6, 1		##get (i + 1) * num_columns -1  --- end
+
+			
+	loop_third:
+			bgt		$s7, 4, done_three		##check the condition of the most inner for loop
+			mul		$t7, $s7, 4		##multiply k by four since it is unsigned, treat it as integer array
+			add		$t7, $s1, $t7		##get the address of the cmp_w[k] whatverer k is. 
+			bne		$t4, $t7, done_four	##check of condition of the if statement
+			move		$a0, $s0		##save argument valiable to a0
+			add		$a1, $t5, $s7		##get the start+k and store it in a1
+			move		$a2, $t6		##get the end and store it in a2
+			jal		horiz_strncmp		##call the function
+			beq		$v0, 0, done_four		##check the condition
+		
+
+			lw      	$ra, 0($sp)
+        		lw      	$s0, 4($sp)
+        		lw      	$s1, 8($sp)
+        		lw      	$s2, 12($sp)
+        		lw      	$s3, 16($sp)
+        		lw     		$s4, 20($sp)
+			lw		$s5, 24($sp)
+			lw		$s6, 28($sp)
+			lw		$s7, 32($sp)
+        		add     	$sp, $sp, 32
+
+			jr 		$ra
+
+
+
+
+
+		done_one:
+			li 		$v0, 0 	##initilized $v0 to 0
+
+			
+			lw      	$ra, 0($sp)
+        		lw      	$s0, 4($sp)
+        		lw      	$s1, 8($sp)
+        		lw      	$s2, 12($sp)
+        		lw      	$s3, 16($sp)
+        		lw     		$s4, 20($sp)
+			lw		$s5, 24($sp)
+			lw		$s6, 28($sp)
+			lw		$s7, 32($sp)
+        		add     	$sp, $sp, 32
+			jr 		$ra
+
+
+		done_two:
+			add 		$s5, $s5, 1 	 ##increment the outter for loop if the inner for loop is false
+			j		loop_first
+			
+		done_three:
+			add		$s6, $s6, 1 	##increment the middle for loop if the most inner for loop is false 
+			j		loop_second
+					
+		done_four:
+			srl		$t4, $t4, 8	##right shift cur_word by 8
+			add		$s7, $s7, 1  	##increment the most inner for loop by one
+			
+			j		loop_third
+
+		##done_5:
+		##	srl		$t4, $t4, 8	##right shift cur_word by 8
+		##	add		$s7, $s7, 1  	##increment the most inner for loop by one
+			
+		
+		
+
+
+
+
+			
