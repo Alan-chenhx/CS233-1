@@ -1,0 +1,84 @@
+Grades for version committed on time
+	full_machine: 49.57 / 80.0
+			*Passed test: init
+			*Passed test: init
+			*Failed test: beq, j
+				*Your output: 00000000
+			*Failed test: bne
+				*Your output: 0000000d
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: add
+			*Passed test: sub
+			*Passed test: and
+			*Passed test: or
+			*Passed test: xor
+			*Passed test: nor
+			*Passed test: addi with sign extension
+			*Passed test: addi
+			*Passed test: andi
+			*Passed test: ori
+			*Passed test: xori
+			*Passed test: lui
+			*Passed test: lbu
+			*Passed test: lbu
+			*Passed test: lw
+			*Failed test: addm
+				*Your output: deadbabe
+			*Passed test: slt
+			*Passed test: slt
+			*Passed test: sb
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: sw
+			*Passed test: jr
+		
+Total: 49.57 / 80
+
+Grades for version committed as of 24 hours after deadline
+	full_machine: 78.26 / 80.0
+			*Passed test: init
+			*Passed test: init
+			*Passed test: beq, j
+			*Passed test: bne
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: add
+			*Passed test: sub
+			*Passed test: and
+			*Passed test: or
+			*Passed test: xor
+			*Passed test: nor
+			*Failed test: addi with sign extension
+				*Your output: 0000ffff
+			*Passed test: addi
+			*Passed test: andi
+			*Passed test: ori
+			*Passed test: xori
+			*Passed test: lui
+			*Passed test: lbu
+			*Passed test: lbu
+			*Passed test: lw
+			*Passed test: addm
+			*Passed test: slt
+			*Passed test: slt
+			*Passed test: sb
+			*Passed test: init
+			*Passed test: init
+			*Passed test: init
+			*Passed test: sw
+			*Passed test: jr
+		
+	Late penalty: 20% (waivers are applied at the end of the semester)
+Total: 62.608 / 80
+
+Final Score: 62.608 / 80
