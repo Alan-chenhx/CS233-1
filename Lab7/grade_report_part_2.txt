@@ -1,0 +1,33 @@
+Grades for version committed on time
+	vert_strncmp: 30.0 / 30
+			*Passed test: vert_strncmp POSTING 178 (given test)
+			*Passed test: vert_strncmp POSTING 178 (given test) (evil)
+			*Passed test: vert_strncmp POSTING 0 (given test)
+			*Passed test: vert_strncmp POSTING 0 (given test) (evil)
+			*Passed test: vert_strncmp CELEBRITIES
+			*Passed test: vert_strncmp CELEBRITIES (evil)
+			*Passed test: vert_strncmp NOPEAVI
+			*Passed test: vert_strncmp NOPEAVI (evil)
+		
+	horiz_strncmp_fast: 20.0 / 30
+			*Passed test: horiz_strncmp_fast LANGUAGE 24 (given test)
+			*Passed test: horiz_strncmp_fast LANGUAGE 24 (given test) (evil)
+			*Passed test: horiz_strncmp_fast NOTAWORD 0 (given test)
+			*Failed test: horiz_strncmp_fast NOTAWORD 0 (given test) (evil)
+				QtSpim error:
+					Exception occurred at PC=0x00400434
+					Unaligned address in inst/data fetch: 0x0000deb1
+			*Passed test: horiz_strncmp_fast WORD
+			*Failed test: horiz_strncmp_fast WORD (evil)
+				QtSpim error:
+					Exception occurred at PC=0x00400434
+					Unaligned address in inst/data fetch: 0x0000deb1
+			*Passed test: horiz_strncmp_fast FOOBAR
+			*Failed test: horiz_strncmp_fast FOOBAR (evil)
+				QtSpim error:
+					Exception occurred at PC=0x00400434
+					Unaligned address in inst/data fetch: 0x0000deb1
+		
+Total: 50.0 / 60
+
+Final Score: 50.0 / 60
