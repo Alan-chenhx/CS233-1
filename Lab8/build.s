@@ -34,10 +34,16 @@ start_loop:
 	add	$t1, $t1, $s0		##get the address of wordlist[i]
 	move	$a1, $t1   		##set the second argument be wordlist[i]
 	li	$a2, 0    		##set the third argument to be 0
-	jal 	add_word_to_trie
+	jal add_word_to_trie
 	add	$s2, $s2, 1
-	j	start_loop
+	lw	$ra, 0($sp) ##store the return address
+	lw	$s0, 4($sp) ##store the wordlist
+	lw	$s1, 8($sp) ##store the num_words
+	lw	$s2, 12($sp) ##store the value i
+	lw	$s3, 16($sp) ##store the root
+	add	$sp, $sp, 20
 
+	j	start_loop
 
 
 skip_1:
