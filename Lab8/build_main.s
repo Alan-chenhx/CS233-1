@@ -16,7 +16,7 @@ main:
 	jal	build_trie
 
 	move	$s0, $v0		# root
-	la	$s1, str
+	la		$s1, str
 
 main_loop:
 	lbu	$t0, 0($s1)

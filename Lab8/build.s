@@ -19,35 +19,30 @@ build_trie:
 	sw	$s2, 12($sp) ##store the value i
 	sw	$s3, 16($sp) ##store the root
 
-	move	$s1, $a1 ##store the value in the stack, so that we can use it later
-	move	$s0, $a0 ##store the value in the stack
+	move	$s1, $a1 ##store the value in the stack, so that we can use it later ---num_words
+	move	$s0, $a0 ##store the value in the stack -- wordlist
 
-	jal alloc_trie
+	jal 	alloc_trie
 
 	move	$s3, $v0  ##store the return value to $a0
-	li	$s2, 0	##set the value of i to one
+	li	$s2, 0	  ##set the value of i to one
 
 start_loop:
 	bge	$s2, $s1, skip_1	##check the condition 
-	move	$a0, $s3    		##sat the argument $a0 to be root
-	mul	$t1, $s2, 4  		##mul i by 4, since it is an integer type 
-	add	$t1, $t1, $s0		##get the address of wordlist[i]
+	move	$a0, $s3  		##sat the argument $a0 to be root
+	mul	$t1, $s2, 4 		##mul i by 4, since it is an integer type 
+	la	$t2, 0($s0)		##get the address of wordlist[0]
+	add	$t1, $t1, $t2		##get the address to wordlist[i]
+	lw	$t1, 0($t1)		##get the actual content that wordlist[i] point to
 	move	$a1, $t1   		##set the second argument be wordlist[i]
 	li	$a2, 0    		##set the third argument to be 0
-	jal add_word_to_trie
+	jal 	add_word_to_trie
 	add	$s2, $s2, 1
-	lw	$ra, 0($sp) ##store the return address
-	lw	$s0, 4($sp) ##store the wordlist
-	lw	$s1, 8($sp) ##store the num_words
-	lw	$s2, 12($sp) ##store the value i
-	lw	$s3, 16($sp) ##store the root
-	add	$sp, $sp, 20
 
 	j	start_loop
 
-
 skip_1:
-	move $v0, $s3	 ##set up the return value
+	move 	$v0, $s3    ##set up the return value
 	lw	$ra, 0($sp) ##store the return address
 	lw	$s0, 4($sp) ##store the wordlist
 	lw	$s1, 8($sp) ##store the num_words
