@@ -25,7 +25,7 @@
 .globl find_words
 find_words:
 	sub	$sp,	$sp, 	48
-	sw	$ra,	0($sp)
+	sw	$ra,	0($sp)		##preserve for return address
 	sw	$s0, 	4($sp) 		##preserve for i
 	sw	$s1,	8($sp)		##preserve for j
 	sw	$s2,	12($sp)		##preserve for k
@@ -35,11 +35,11 @@ find_words:
 	sw	$s6,	28($sp)		##preserve for start
 
 
-	li	$s0,	0
-	li	$s1,	0
-	li	$s2,	0
-	move	$s3,	$a0	##dictionary
-	move	$s4,	$a1	##dictionary_size
+	li	$s0,	0	##initialized i
+	li	$s1,	0	##initialized j
+	li	$s2,	0	##initialized k
+	move	$s3,	$a0		##char ** dictionary
+	move	$s4,	$a1		##dictionary_size
 
 	lw	$t0,	num_rows
 	sw	$t0,	32($sp)   	##save num_rows in stack 36  ---- num_rows
@@ -52,27 +52,33 @@ outer_loop:
 	lw	$t0,	32($sp)		##num_rows
 	bge	$s0,	$t0,	return 	##i < num_rows
 
+	li	$s1,  	0		##initilized j = 0
+
 middle_loop:
 	lw	$t1,	36($sp)		##num_columns
 	bge	$s1,	$t1,	return_outer_loop	##j < num_columns
 	mul	$t2,	$s0,	$t1	##i * num_columns
 	add	$s6,	$t2,	$s1	##i * num_columns + j  --- start
-	add	$t2,	$s0,	1 	##i+1
-	mul	$t2,	$t2,	$t1	##(i+1) * num_columns
-	sub	$t2,	$t2,	1 	##(i+1) * num_columns - 1  ---- end
+
+	mul	$t2,	$s0,	$t1 	##i* columns
+	add	$t2,	$t2,	$t1	##i * num_columns + num_columns
+	sub	$t2,	$t2,	1 	##i * num_columns + num_columns -1  ---- end
 	sw	$t2,	40($sp)		##store  end  to  stack 
+
+	li	$s2,	0		##initilized k = 0 
 
 inner_loop:
 	bge	$s2,	$s4,	return_middle_loop	## k < dictionary_size
 	mul	$t3,	$s2,	4 	##k * 4
 	la	$t4,	0($s3)		##get the address of dictionary[0]
 	add 	$s5,	$t4, 	$t3	##get the dictionary[k] ---- word
+	lw	$s5, 0($s5)
 	move	$a0,	$s5		##copy word to $a0
 	move	$a1,	$s6		##copy start to $a1
 	lw	$a2,	40($sp)		##get the end back from memory and store it at $a2	
 	jal	horiz_strncmp 		##call the function
 	sw	$v0,	44($sp)		##store the return_value to stack --- word_end
-	bgt	$v0, 	$0,	skip_one	##check the condition
+	bgt	$v0, 	$0,	skip_one 	##check the condition   // having problems here 
 j_cond1:
 	move	$a0,	$s5		##load the word to $a0
 	move	$a1,	$s0		##load the i to $a1
