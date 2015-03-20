@@ -1,0 +1,97 @@
+Total: 0.0/100
+
+Testing add: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing sub: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing and: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing or: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing lw: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing sw: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing slt: 0.0/3.75
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing beq_taken: 0.0/1.875
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing beq_not_taken: 0.0/1.875
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing asin_not_skipped: 0.0/21.0
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing asin_skipped: 0.0/42.0
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
+
+Testing asin_zero: 0.0/7.0
+Compilation failed:
+machine.v:61: error: Net ``old_wr_data'' has already been declared.
+machine.v:63: syntax error
+machine.v:63: error: invalid module item.
+machine.v:70: syntax error
+machine.v:70: error: Invalid module instantiation
