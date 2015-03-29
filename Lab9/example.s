@@ -36,7 +36,7 @@ infinite:
 
 
 .kdata				# interrupt handler data (separated just for readability)
-chunkIH:	.space 8	# space for two registers
+chunkIH:	.space 16	# space for four registers
 non_intrpt_str:	.asciiz "Non-interrupt exception\n"
 unhandled_str:	.asciiz "Unhandled interrupt type\n"
 
@@ -49,6 +49,8 @@ interrupt_handler:
 	la	$k0, chunkIH
 	sw	$a0, 0($k0)		# Get some free registers                  
 	sw	$a1, 4($k0)		# by storing them to a global variable     
+	sw	$v0, 8($k0)
+	sw	$t0, 12($k0) 
 
 	mfc0	$k0, $13		# Get Cause register                       
 	srl	$a0, $k0, 2                
@@ -101,6 +103,8 @@ done:
 	la	$k0, chunkIH
 	lw	$a0, 0($k0)		# Restore saved registers
 	lw	$a1, 4($k0)
+	lw	$v0, 8($k0)
+	lw	$t0, 12($k0)  
 .set noat
 	move	$at, $k1		# Restore $at
 .set at 

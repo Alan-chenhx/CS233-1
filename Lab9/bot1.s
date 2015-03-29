@@ -60,8 +60,8 @@ do_x1:
 	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	li	$t3,	4
-	sw	$t3,  VELOCITY
+	#li	$t3,	4
+	#sw	$t3,  VELOCITY
 	j     	x_loop1
 
 
@@ -70,8 +70,8 @@ do_x2:
 	sw	$t3, 	0xffff0014($zero)	##save the angle to 0xffff0014
 	li	$t3, 	1		##choose the absolute mode
 	sw	$t3,	0xffff0018	##and store it in the address 0xffff0018
-	li	$t3,	4
-	sw	$t3, 	VELOCITY
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
 	j	x_loop1
 
 do_z1:
@@ -80,22 +80,22 @@ do_z1:
 
 do_y1:
 		
-	li	$t3, 	270		##go to 180 toward to planet
+	li	$t3, 	270		##go to 270 toward to planet
 	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	li	$t3,	4
-	sw	$t3, 	VELOCITY
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
 	j     	z_loop1
 	
 do_y2:
 		
-	li	$t3, 90			##go to 180 toward to planet
+	li	$t3, 90			##go to 90 toward to planet
 	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	li	$t1,	4
-	sw	$t3, VELOCITY
+	#li	$t1,	4
+	#sw	$t3, VELOCITY
 	j     	z_loop1
 
 
