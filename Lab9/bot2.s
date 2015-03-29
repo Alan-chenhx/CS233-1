@@ -38,6 +38,10 @@ Sector_info:
 	.align 2
 	.space 256
 
+#to tell wether the scan complete or not 
+scan_flag:
+	.space	4
+
 .text
 
 main:
@@ -51,27 +55,141 @@ main:
 	or	$t4, $t4, 1		# global interrupt enable
 	mtc0	$t4, $12		# set interrupt mask (Status register)
 
-	li		$t0, 	0
-	la		$t1,	Sector_info
-	#sw 		$t0, 	SCAN_SECTOR($zero)
-	#sw  	$t1,	SCAN_REQUEST($zero)
-# request timer interrupt
-
-	sw		$t0, SCAN_SECTOR		# read current SCAN_SECTOR
+	li      $t1, 0			#iterator 0->63
+	li      $t2, 0                 	#t2 holds max number of dust
+        li      $t3, 0                  #t3 holds sector # of max
+	sw	$0, scan_flag
 
 
-	#add	$t0, $t0, 50		# add 50 to current time
-	#sw	$t0, TIMER		# request timer interrupt in 50 cycles
+start_scan:
+        sw      $t1, SCAN_SECTOR
+        la      $t0, Sector_info	        #get address of sector info
+        sw      $t0, SCAN_REQUEST
 
-	#li	$a0, 10
-	#sw	$a0, VELOCITY		# drive
+
+wait_for_scan:
+	lw	$t5,	scan_flag
+	beq	$t5,	1,	go_through
+	j	wait_for_scan 
+
+
+go_through:
+	mul     $t4, $t1, 4
+        add     $t4, $t4, $t0
+        lw      $t5, 0($t4)		#get number of dust particles
+
+	ble     $t5, $t2, after		#check to see if there is a new max
+        move    $t2, $t5                #update highest number
+        move    $t3, $t1                #update which sector
+
+after:  
+	add     $t1, $t1, 1		#update iterator
+	sw	$t5,	PRINT_INT
+	sw	$0, 	scan_flag
+        bne     $t1, 64, start_scan     #keep scanning if not 64	
+	
+       
+
+go_to_max_dust:
+
+	li	$t1,	8
+	div	$t3,	$t1
+	mfhi	$t4	##to get the value $t4 = sector_number %8
+	mflo	$t5	##to get the value $t5 = sector_number /8
+	
+	li	$t6, 	18
+	li	$t7,	300
+	div	$t7,	$t1  
+	mflo	$t8    		##get the number 300 /8
+	mul	$t4,	$t8,	$t4  ##get the x_coordinate of the sector
+	add	$t4,	$t4,	18	##get to the center of the sector
+	
+	mul	$t5,	$t5,	$t8  ##get the y_coordinate of the sector
+	add	$t5,	$t5,	18	##get to the center of the sector
+
+
+
+x_loop1:	
+
+	lw	$t2,	BOT_X	##get the x-coordinates of the robot
+	blt	$t4, $t2, do_x1	##if the x_coordinate of the planet is on the left of robot, we go to left	-- 180
+	bgt	$t4, $t2, do_x2	##if the x_coordinate of the planet is on the right of robot, we go to right	-- 0
+	beq	$t4, $t2, do_z1 ##if the x_coordinate is the same, go to the y_coordinates
+
+y_loop1:
+
+	lw	$t2,	BOT_Y	##get the y-coordinates of the robot
+	blt	$t5, $t2, do_y1 ## if the y_coordinate of the planet is less than  the y_coordinates of the robot, we go up  -- 270
+	bgt	$t5, $t2, do_y2 ## if the y_coordinate of the planet is greater than  the y_coordinates of the robot, we go up  -- 90
+	beq	$t5, $t2, z_loop1	##if the y_coordinate is the same, go to the x_coordinates
+
+z_loop1:
+
+	j	move_dust
+
+
+
+do_z1:
+	j	y_loop1
+
+do_x1:
+	li	$t3, 	180		##go to 180 toward to planet
+	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3,  VELOCITY
+	j     	x_loop1
+
+
+do_x2:
+	li	$t3, 	0			##go to the 0 angle toward the plnet, because the planet is on the right
+	sw	$t3, 	0xffff0014($zero)	##save the angle to 0xffff0014
+	li	$t3, 	1		##choose the absolute mode
+	sw	$t3,	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
+	j	x_loop1
+
+
+do_y1:
+		
+	li	$t3, 	270		##go to 270 toward to planet
+	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
+	j     	z_loop1
+	
+do_y2:
+		
+	li	$t3, 90			##go to 90 toward to planet
+	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t1,	4
+	#sw	$t3, VELOCITY
+	j     	z_loop1
+
+
+
+move_dust:
+	
+	li	$v0,	6
+	sw	$v0,	FIELD_STRENGTH  
+	li	$v0,	10
+	sw	$v0,	VELOCITY 
+	
 
 infinite: 
 	j      infinite
 
 
+
+
 .kdata				# interrupt handler data (separated just for readability)
-chunkIH:	.space 16	# space for four registers
+chunkIH:	.space 20	# space for four registers
 non_intrpt_str:	.asciiz "Non-interrupt exception\n"
 unhandled_str:	.asciiz "Unhandled interrupt type\n"
 
@@ -86,6 +204,7 @@ interrupt_handler:
 	sw	$a1, 4($k0)		# by storing them to a global variable     
 	sw	$v0, 8($k0)
 	sw	$t0, 12($k0)
+	sw	$t1, 16($k0)
 
 	mfc0	$k0, $13		# Get Cause register                       
 	srl	$a0, $k0, 2                
@@ -111,18 +230,11 @@ interrupt_dispatch:			# Interrupt:
 
 SCAN_interrupt:
 	
-	sw	$a1, SCAN_ACKNOWLEDGE	# acknowledge interrupt
-
-	move $t2, $zero
-	bge $t2, 64, end
-Finding:
-	la $t1, sector_array
-	sw $t2, SCAN_SECTOR($zero)
-	sw $t1, SCAN_REQUEST($zero)
-	add $t2, $t2, 1
-	blt $t2, 64, Finding
-
-end:
+	sw	$a1, 	SCAN_ACKNOWLEDGE	# acknowledge interrupt
+	#lw	$t1,	0(scan_flag)	#check the flag of the scan_flag
+	#beq	$t1,	1,	complete_scan #if the flag is raise, we know the scan is complete	
+	li	$t1,	1
+	sw	$t1,	scan_flag
 	j	interrupt_dispatch	# see if other interrupts are waiting
 
 
@@ -130,14 +242,6 @@ end:
 
 ENERGY_interrupt:
 	sw	$a1, ENERGY_ACKNOWLEDGE	# acknowledge interrupt
-
-	#li	$t0, 90			# ???
-	#sw	$t0, ANGLE		# ???
-	#sw	$zero, ANGLE_CONTROL	# ???
-
-	lw	$v0, ENERGY		# current time
-	add	$v0, $v0, 50000  
-	sw	$v0, ENERGY		# request timer in 50000 cycles
 
 	j	interrupt_dispatch	# see if other interrupts are waiting
 
@@ -153,6 +257,7 @@ done:
 	lw	$a1, 4($k0)
 	lw	$v0, 8($k0)
 	lw	$t0, 12($k0)  
+	lw	$t1, 16($k0)
 .set noat
 	move	$at, $k1		# Restore $at
 .set at 
