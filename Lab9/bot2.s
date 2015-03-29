@@ -139,8 +139,8 @@ do_x1:
 	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
-	#sw	$t3,  VELOCITY
+	li	$t3,	10
+	sw	$t3,  VELOCITY
 	j     	x_loop1
 
 
@@ -149,8 +149,8 @@ do_x2:
 	sw	$t3, 	0xffff0014($zero)	##save the angle to 0xffff0014
 	li	$t3, 	1		##choose the absolute mode
 	sw	$t3,	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
-	#sw	$t3, 	VELOCITY
+	li	$t3,	10
+	sw	$t3, 	VELOCITY
 	j	x_loop1
 
 
@@ -160,8 +160,8 @@ do_y1:
 	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
-	#sw	$t3, 	VELOCITY
+	li	$t3,	10
+	sw	$t3, 	VELOCITY
 	j     	y_loop1
 	
 do_y2:
@@ -170,8 +170,8 @@ do_y2:
 	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t1,	4
-	#sw	$t3, VELOCITY
+	li	$t1,	10
+	sw	$t3, VELOCITY
 	j     	y_loop1
 
 
@@ -179,13 +179,8 @@ move_dust:
 	
 	li	$v0,	10
 	sw	$v0,	FIELD_STRENGTH  
-	li	$v0,	10
+	li	$v0,	2
 	sw	$v0,	VELOCITY 
-
-	la	$t0,	planet_info
-	sw	$t0,	PLANETS_REQUEST
-
-
 
 x_loop11:	
 	la	$t0,	planet_info
