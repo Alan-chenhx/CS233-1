@@ -179,7 +179,7 @@ move_dust:
 	
 	li	$v0,	10
 	sw	$v0,	FIELD_STRENGTH  
-	li	$v0,	2
+	li	$v0,	4
 	sw	$v0,	VELOCITY 
 
 x_loop11:	
@@ -222,7 +222,7 @@ do_x11:
 	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
+	#li	$t3,	10
 	#sw	$t3,  VELOCITY
 	j     	x_loop11
 
@@ -232,11 +232,12 @@ do_x21:
 	sw	$t3, 	0xffff0014($zero)	##save the angle to 0xffff0014
 	li	$t3, 	1		##choose the absolute mode
 	sw	$t3,	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
+	#li	$t3,	10
 	#sw	$t3, 	VELOCITY
 	j	x_loop11
 
 do_z11:
+	
 	j	z_loop11
 
 
@@ -246,7 +247,7 @@ do_y11:
 	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
 	li	$t3,	1		##choose the absolute mode
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
-	#li	$t3,	4
+	#li	$t3,	10
 	#sw	$t3, 	VELOCITY
 	j     	z_loop11
 	
