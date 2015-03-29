@@ -38,6 +38,12 @@ Sector_info:
 	.align 2
 	.space 256
 
+
+
+planet_info:
+	.align 2
+	.space 32
+
 #to tell wether the scan complete or not 
 scan_flag:
 	.space	4
@@ -89,9 +95,6 @@ after:
         bne     $t1, 64, start_scan     #keep scanning if not 64	
 	
        
-
-go_to_max_dust:
-
 	li	$t1,	8
 	div	$t3,	$t1
 	mfhi	$t4	##to get the value $t4 = sector_number %8
@@ -128,7 +131,6 @@ z_loop1:
 	j	move_dust
 
 
-
 do_z1:
 	j	y_loop1
 
@@ -160,7 +162,7 @@ do_y1:
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
 	#li	$t3,	4
 	#sw	$t3, 	VELOCITY
-	j     	z_loop1
+	j     	y_loop1
 	
 do_y2:
 		
@@ -170,17 +172,107 @@ do_y2:
 	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
 	#li	$t1,	4
 	#sw	$t3, VELOCITY
-	j     	z_loop1
-
+	j     	y_loop1
 
 
 move_dust:
 	
-	li	$v0,	6
+	li	$v0,	10
 	sw	$v0,	FIELD_STRENGTH  
 	li	$v0,	10
 	sw	$v0,	VELOCITY 
+
+	la	$t0,	planet_info
+	sw	$t0,	PLANETS_REQUEST
+
+
+
+x_loop11:	
+	la	$t0,	planet_info
+	sw	$t0,	PLANETS_REQUEST
+	lw	$t1,	0($t0)	##get the x-coordinates of the planet
+	lw	$t2,	BOT_X	##get the x-coordinates of the robot
+	blt	$t1, $t2, do_x11	##if the x_coordinate of the planet is on the left of robot, we go to left	-- 180
+	bgt	$t1, $t2, do_x21	##if the x_coordinate of the planet is on the right of robot, we go to right	-- 0
+	beq	$t1, $t2, do_z11 ##if the x_coordinate is the same, go to the y_coordinates
+
+y_loop11:
+	la	$t0,	planet_info
+	sw	$t0,	PLANETS_REQUEST
+	lw	$t1,	4($t0)	##get the y-coordinates of the planet
+	lw	$t2,	BOT_Y	##get the y-coordinates of the robot
+	blt	$t1, $t2, do_y11 ## if the y_coordinate of the planet is less than  the y_coordinates of the robot, we go up  -- 270
+	bgt	$t1, $t2, do_y21 ## if the y_coordinate of the planet is greater than  the y_coordinates of the robot, we go up  -- 90
+	beq	$t1, $t2, do_z11	##if the y_coordinate is the same, go to the x_coordinates
+
+z_loop11:
+	la	$t0,	planet_info
+	sw	$t0,	PLANETS_REQUEST
+	lw	$t1,	0($t0)
+	lw	$t2,	BOT_X
+	lw	$t3,	0($t0)
+	lw	$t4, 	BOT_Y
+	bne	$t1,	$t2, 	do_x31
+	bne	$t3,	$t4, 	do_y31
+
+	li	$v0,	0
+	sw	$v0,	FIELD_STRENGTH  
+	li	$v0,	10
+	sw	$v0,	VELOCITY 
+
+	j	x_loop1
+
+do_x11:
+	li	$t3, 	180		##go to 180 toward to planet
+	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3,  VELOCITY
+	j     	x_loop11
+
+
+do_x21:
+	li	$t3, 	0			##go to the 0 angle toward the plnet, because the planet is on the right
+	sw	$t3, 	0xffff0014($zero)	##save the angle to 0xffff0014
+	li	$t3, 	1		##choose the absolute mode
+	sw	$t3,	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
+	j	x_loop11
+
+do_z11:
+	j	z_loop11
+
+
+do_y11:
+		
+	li	$t3, 	270		##go to 270 toward to planet
+	sw	$t3, 	0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t3,	4
+	#sw	$t3, 	VELOCITY
+	j     	z_loop11
 	
+do_y21:
+		
+	li	$t3, 90			##go to 90 toward to planet
+	sw	$t3, 0xffff0014($zero) 	##save the angle to Oxffff0014
+	li	$t3,	1		##choose the absolute mode
+	sw	$t3, 	0xffff0018	##and store it in the address 0xffff0018
+	#li	$t1,	4
+	#sw	$t3, VELOCITY
+	j     	z_loop11
+
+
+do_x31:
+	j	x_loop11
+
+
+do_y31:
+	j 	y_loop11
+
 
 infinite: 
 	j      infinite
