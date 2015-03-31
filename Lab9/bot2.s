@@ -179,7 +179,7 @@ move_dust:
 	
 	li	$v0,	10
 	sw	$v0,	FIELD_STRENGTH  
-	li	$v0,	4
+	li	$v0,	5
 	sw	$v0,	VELOCITY 
 
 x_loop11:	
@@ -189,7 +189,7 @@ x_loop11:
 	lw	$t2,	BOT_X	##get the x-coordinates of the robot
 	blt	$t1, $t2, do_x11	##if the x_coordinate of the planet is on the left of robot, we go to left	-- 180
 	bgt	$t1, $t2, do_x21	##if the x_coordinate of the planet is on the right of robot, we go to right	-- 0
-	beq	$t1, $t2, do_z11 ##if the x_coordinate is the same, go to the y_coordinates
+	beq	$t1, $t2, z_loop11 ##if the x_coordinate is the same, go to the y_coordinates
 
 y_loop11:
 	la	$t0,	planet_info
@@ -198,7 +198,7 @@ y_loop11:
 	lw	$t2,	BOT_Y	##get the y-coordinates of the robot
 	blt	$t1, $t2, do_y11 ## if the y_coordinate of the planet is less than  the y_coordinates of the robot, we go up  -- 270
 	bgt	$t1, $t2, do_y21 ## if the y_coordinate of the planet is greater than  the y_coordinates of the robot, we go up  -- 90
-	beq	$t1, $t2, do_z11	##if the y_coordinate is the same, go to the x_coordinates
+	beq	$t1, $t2, z_loop11	##if the y_coordinate is the same, go to the x_coordinates
 
 z_loop11:
 	la	$t0,	planet_info
@@ -236,9 +236,6 @@ do_x21:
 	#sw	$t3, 	VELOCITY
 	j	x_loop11
 
-do_z11:
-	
-	j	z_loop11
 
 
 do_y11:
