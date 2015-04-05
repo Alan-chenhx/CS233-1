@@ -66,8 +66,8 @@ module pipelined_machine(clk, reset);
 
 
    register #(30) PC_plus4_pipeReg(PC_plus4_EX, PC_plus4, clk, 1'b1, enable_flush);
-   register #(6) funct_hd_pipeReg(funct_EX, inst[5:0], clk, 1'b1, enable_flush);
-   register #(6)  opcode_hd_pipeReg(opcode_EX, inst[31:26], clk, 1'b1, enable_flush);
+   register #(6) funct_hd_pipeReg(funct_EX, funct, clk, 1'b1, enable_flush);
+   register #(6)  opcode_hd_pipeReg(opcode_EX, opcode, clk, 1'b1, enable_flush);
    register #(32) rd1_data_hd_pipeReg(rd1_data_EX, rd1_data, clk, 1'b1, enable_flush);
    register #(32) rd2_data_hd_pipeReg(rd2_data_EX, rd2_data, clk, 1'b1, enable_flush);
    register  #(32) immediate_hd_pipeReg(imm_EX, imm, clk, 1'b1, enable_flush);
