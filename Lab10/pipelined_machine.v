@@ -43,47 +43,5 @@ module pipelined_machine(clk, reset);
    
    mux2v #(32) wb_mux(wr_data, alu_out_data, load_data, MemToReg);
    mux2v #(5) rd_mux(wr_regnum, rt, rd, RegDst);
-
-
-   wire enable_flush;
-   wire [5:0] opcode_EX;
-   wire [5:0] funct_EX;
-   wire [31:2] PC_plus4_EX;
-   wire [31:0] rd1_data_EX;
-   wire  [31:0] rd2_data_EX;
-   wire  [31:0] imm_EX;
-   wire  [4:0]  rt_EX;
-   wire  [4:0] rd_EX;
-   wire  [4:0] rs_EX;
-   wire  [31:0] rs_select;
-   wire  [31:0] rt_select;
-   wire  [31:0] wr_data_EX;
-   wire  [4:0] wr_regnum_EX;
-   wire  forwardA, forwardB, RegWrite_EX;
-
-
-   assign enable_flush = PCSrc || reset;
-
-
-   register #(30) PC_plus4_pipeReg(PC_plus4_EX, PC_plus4, clk, 1'b1, enable_flush);
-   register #(6) funct_hd_pipeReg(funct_EX, funct, clk, 1'b1, enable_flush);
-   register #(6)  opcode_hd_pipeReg(opcode_EX, opcode, clk, 1'b1, enable_flush);
-   register #(32) rd1_data_hd_pipeReg(rd1_data_EX, rd1_data, clk, 1'b1, enable_flush);
-   register #(32) rd2_data_hd_pipeReg(rd2_data_EX, rd2_data, clk, 1'b1, enable_flush);
-   register  #(32) immediate_hd_pipeReg(imm_EX, imm, clk, 1'b1, enable_flush);
-   register #(5)  rt_hd_pipeReg(rt_EX, rt, clk, 1'b1, enable_flush);
-   register #(5)  rd_hd_pipe_Reg(rd_EX, rd, clk, 1'b1, enable_flush);
-   register #(5)  rs_hd_pipe_Reg(rs_EX, rs, clk, 1'b1, enable_flush);
-
-   mux2v #(32)  mux_forwardA(rs_select, rd1_data_EX, wr_data_EX, forwardA);
-   mux2v #(32)  mux_forwardB(rt_select, rd2_data_EX, wr_data_EX, forwardB);
-
-   assign forwardA = (rs_EX == wr_regnum_EX) && RegWrite_EX;
-   assign forwardB = (rt_EX == wr_regnum_EX) && RegWrite_EX;
-
-   register #(32) wr_data_fd(wr_data_EX, wr_data, clk, 1'b1, reset);
-   register #(5)  wr_regnum_hd_fd(wr_regnum_EX, wr_regnum, clk, 1'b1, reset);
-   register #(1)  wr_enable_fd(RegWrite_EX, RegWrite, clk, 1'b1, reset);
-
    
 endmodule // pipelined_machine
