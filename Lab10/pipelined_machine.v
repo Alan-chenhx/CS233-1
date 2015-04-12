@@ -23,26 +23,26 @@ module pipelined_machine(clk, reset);
    register #(30, 30'h100000) PC_reg(PC[31:2], next_PC[31:2], clk, /* enable */1'b1, reset);
    assign PC[1:0] = 2'b0;  // bottom bits hard coded to 00
    adder30 next_PC_adder(PC_plus4, PC[31:2], 30'h1);
-   adder30 target_PC_adder(PC_target, PC_plus4, imm[29:0]);
+   adder30 target_PC_adder(PC_target, PC_plus4_EX, imm[29:0]);
    mux2v #(30) branch_mux(next_PC, PC_plus4, PC_target, PCSrc);
    assign PCSrc = BEQ & zero;
       
    instruction_memory imem (inst, PC[31:2]);
 
    mips_decode decode(ALUOp, RegWrite, BEQ, ALUSrc, MemRead, MemWrite, MemToReg, RegDst, 
-                      opcode, funct);
+                      opcode_EX, funct_EX);
    
    regfile rf (rd1_data, rd2_data,
                rs, rt, wr_regnum, wr_data, 
                RegWrite, clk, reset);
 
-   mux2v #(32) imm_mux(B_data, rd2_data, imm, ALUSrc);
-   alu32 alu(alu_out_data, zero, ALUOp, rd1_data, B_data);
+   mux2v #(32) imm_mux(B_data, rt_select, imm_EX, ALUSrc);
+   alu32 alu(alu_out_data, zero, ALUOp, rs_select, B_data);
    
-   data_mem data_memory(load_data, alu_out_data, rd2_data, MemRead, MemWrite, clk, reset);
+   data_mem data_memory(load_data, alu_out_data, rt_select, MemRead, MemWrite, clk, reset);
    
    mux2v #(32) wb_mux(wr_data, alu_out_data, load_data, MemToReg);
-   mux2v #(5) rd_mux(wr_regnum, rt, rd, RegDst);
+   mux2v #(5) rd_mux(wr_regnum, rt_EX, rd_EX, RegDst);
 
 
 
@@ -65,7 +65,7 @@ module pipelined_machine(clk, reset);
 
    assign enable_flush = PCSrc || reset;
 
-
+	
    register #(30) PC_plus4_pipeReg(PC_plus4_EX, PC_plus4, clk, 1'b1, enable_flush);
    register #(6) funct_hd_pipeReg(funct_EX, funct, clk, 1'b1, enable_flush);
    register #(6)  opcode_hd_pipeReg(opcode_EX, opcode, clk, 1'b1, enable_flush);
@@ -76,11 +76,14 @@ module pipelined_machine(clk, reset);
    register #(5)  rd_hd_pipe_Reg(rd_EX, rd, clk, 1'b1, enable_flush);
    register #(5)  rs_hd_pipe_Reg(rs_EX, rs, clk, 1'b1, enable_flush);
 
+
+   assign forwardA = (wr_regnum_EX == rs_EX) && RegWrite_EX;
+   assign forwardB = (wr_regnum_EX == rt_EX) && RegWrite_EX;
+
    mux2v #(32)  mux_forwardA(rs_select, rd1_data_EX, wr_data_EX, forwardA);
    mux2v #(32)  mux_forwardB(rt_select, rd2_data_EX, wr_data_EX, forwardB);
 
-   assign forwardA = (rs_EX == wr_regnum_EX) && RegWrite_EX;
-   assign forwardB = (rt_EX == wr_regnum_EX) && RegWrite_EX;
+   
 
    register #(32) wr_data_fd(wr_data_EX, wr_data, clk, 1'b1, reset);
    register #(5)  wr_regnum_hd_fd(wr_regnum_EX, wr_regnum, clk, 1'b1, reset);
