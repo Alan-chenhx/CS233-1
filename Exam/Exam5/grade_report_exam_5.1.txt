@@ -1,0 +1,33 @@
+Exam 5 grade report for clei5:
+
+REGULAR TESTS (70%):
+test 0: INCORRECT
+	Expected: 50 50 (null)
+	Got:      
+test 1: NO OUTPUT
+test 2: NO OUTPUT
+test 3: NO OUTPUT
+test 4: NO OUTPUT
+
+QtSpim Error:
+
+
+SCORE: 0 / 5 (70% of total)
+
+
+EVIL TESTS (30%):
+test 0: INCORRECT
+	Incorrect output
+	Modified $s registers :(
+	Didn't return the stack :(
+test 1: NO OUTPUT
+test 2: NO OUTPUT
+test 3: NO OUTPUT
+test 4: NO OUTPUT
+
+QtSpim Error:
+
+
+SCORE: 0 / 25 (30% of total)
+
+FINAL SCORE:   0%
