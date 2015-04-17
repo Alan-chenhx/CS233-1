@@ -18,6 +18,8 @@ Cache::Block* CacheSimulator::find_block(uint32_t address) const {
    *    block. Otherwise, return NULL.
    */
 
+
+
    const CacheConfig& _cache_config = _cache->get_config();
 
    uint32_t index = extract_index(address, _cache_config);
@@ -120,9 +122,36 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
    *    b. Otherwise, write `word` to `address` in memory.
    */
 
+  Cache::Block* found = find_block(address);
 
+  if(!found){
+	if(_policy.is_write_allocate()){
+		found = bring_block_into_cache(address);
+	}
+	else{
+		_memory->write_word(address,word);
+		return;
+	}
+}
 
+	uint32_t temp = found->get_last_used_time();
+   	found ->set_last_used_time(temp);
+	
+	const CacheConfig& _cache_config2 = _cache->get_config();
+	uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
+	//write_word_at_offset(uint32_t data, uint32_t block_offset) 
+	found -> write_word_at_offset(word, block_offset);
 
+	if(_policy.is_write_back()){
+		found->mark_as_dirty();
+	}
+	else{
+		//write_access(uint32_t address, uint32_t word) const;
+		//write_data_to_memory(Memory *memory) 
+		found->write_data_to_memory(_memory);
+}
+	
+	return ;
 
 
 }
