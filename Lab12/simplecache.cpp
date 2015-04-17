@@ -25,5 +25,4 @@ void SimpleCache::insert(int index, int tag, char data[]) {
 	}
 	cache2[0].replace(tag, data);
 	return;
-
 }
