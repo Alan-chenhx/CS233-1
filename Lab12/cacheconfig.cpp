@@ -40,9 +40,9 @@ CacheConfig::CacheConfig(uint32_t size, uint32_t block_size, uint32_t associativ
    int temp = _size / (_block_size * associativity) ;
 
    assign = 1;
-
+   //cout<<"temp is "<<temp <<endl;
    for(int i =0; i<block_size; i++){
-   		if(temp/2!=1){
+   		if(temp/2 != 1){
    			assign +=1;
    			cout<<"temp is "<<temp <<endl;
    			temp = temp/2;
