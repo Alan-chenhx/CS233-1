@@ -103,7 +103,6 @@ uint32_t CacheSimulator::read_access(uint32_t address) const {
    uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
    uint32_t output = recent_block->read_word_at_offset(block_offset);
 
-
    return output;
 }
 
