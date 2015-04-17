@@ -19,17 +19,17 @@ int _num_index_size = _cache_config.get_num_index_bits();
 
 uint32_t index = _index; 
 uint32_t tag   = get_tag();
-cout<<"tag is "<< tag<< endl;
+//cout<<"tag is "<< tag<< endl;
 
 
 tag = tag << _num_index_size; 
-cout<<"tag is "<< tag<< endl;
-cout<<"index is "<<index<< endl;
+//cout<<"tag is "<< tag<< endl;
+//cout<<"index is "<<index<< endl;
 
 
 tag += index;
 
-cout<<"tag is "<< tag<< endl;
+//cout<<"tag is "<< tag<< endl;
 
 //int shift = 32 - _num_index_size- _num_block_offset_size;
 
@@ -37,7 +37,7 @@ cout<<"tag is "<< tag<< endl;
 
 tag  = tag << _num_block_offset_size; 
 
-cout<<"tag is "<< tag<< endl;
+//cout<<"tag is "<< tag<< endl;
 
 return tag;
 }

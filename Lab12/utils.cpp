@@ -9,7 +9,7 @@ uint32_t extract_tag(uint32_t address, const CacheConfig& cache_config) {
   // TODO
 	
 	
-    cout<<"address is "<< address <<endl;  
+    //cout<<"address is "<< address <<endl;  
 
     int offset_size = cache_config.get_num_block_offset_bits();
 
@@ -28,9 +28,9 @@ uint32_t extract_tag(uint32_t address, const CacheConfig& cache_config) {
     	return address;
 
 
-   cout<<"the block_offset is "<< offset_size <<endl;
-   cout<<"the index_size is "<< index_size<< endl;
-   cout<<"the tag_size is "<< tag_size <<endl;
+   //cout<<"the block_offset is "<< offset_size <<endl;
+   //cout<<"the index_size is "<< index_size<< endl;
+   //cout<<"the tag_size is "<< tag_size <<endl;
 
    address = (address>> (N));
 
@@ -62,8 +62,8 @@ uint32_t extract_index(uint32_t address, const CacheConfig& cache_config) {
     int total = tag_size + offset_size;
 
 
-	cout<<"tag_size is "<< tag_size <<endl;
-	cout<<"offset_size is "<<offset_size<< endl;
+	//cout<<"tag_size is "<< tag_size <<endl;
+	//cout<<"offset_size is "<<offset_size<< endl;
 
 
     address = address >> total;
