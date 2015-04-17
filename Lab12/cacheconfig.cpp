@@ -19,26 +19,33 @@ CacheConfig::CacheConfig(uint32_t size, uint32_t block_size, uint32_t associativ
 
    for(int i =0; i< block_size; i++){
    		if(temp1/2 !=1){
-   			temp1 = temp1/2;
    			assign += 1;
+   			cout<<"temp1 is "<<temp1<<endl;
+   			temp1 = temp1/2;
    		}
    		else
    			break;
    }
 
-   _num_block_offset_bits =  assign;
+   if(temp1 ==0){
 
+      _num_block_offset_bits =  0;
+
+	}
+	else{
+	  _num_block_offset_bits = assign;
+	}
    //cout<<"number of offset_bits is "<< _num_block_offset_bits<< endl;
 
-   int temp = _size / _block_size ;
+   int temp = _size / (_block_size * associativity) ;
 
-   temp = temp/associativity;
-   assign = 2;
+   assign = 1;
 
-   for(int i =0; i<temp; i++){
+   for(int i =0; i<block_size; i++){
    		if(temp/2!=1){
-   			temp = temp/2;
    			assign +=1;
+   			cout<<"temp is "<<temp <<endl;
+   			temp = temp/2;
 			//cout<< "temp is " << temp <<endl;
    		}
 
@@ -46,8 +53,15 @@ CacheConfig::CacheConfig(uint32_t size, uint32_t block_size, uint32_t associativ
    			break;
    }
 
+   if(temp ==0)
+   {
+   	_num_index_bits = 0;
+   }
+   else
    //cout<<"assign is " << assign<<endl;
+   {
    _num_index_bits = assign;
+	}
    //cout<<"number of index bits is"<<_num_index_bits <<endl;
 
    _num_tag_bits = 32 - _num_index_bits - _num_block_offset_bits; 
