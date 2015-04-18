@@ -40,10 +40,10 @@ Cache::Block* CacheSimulator::find_block(uint32_t address) const {
 
 	//	if(cache1[i]->get_tag()== tag) { //have problem here
 	//		cout<<"Hello"<<endl;
-	 cout<<"tag2 is "<< cache1[i]->get_tag()<<endl;
+	// cout<<"tag2 is "<< cache1[i]->get_tag()<<endl;
   //}
 
-    cout<< cache1[i]->is_valid()<<endl;
+    //cout<< cache1[i]->is_valid()<<endl;
 		if(cache1[i]->is_valid() && cache1[i]->get_tag()== tag ){
 			_hits++;
 			 // cout << "Hello World "<<endl;
