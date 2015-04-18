@@ -68,11 +68,8 @@ uint32_t extract_index(uint32_t address, const CacheConfig& cache_config) {
 
     address = address >> total;
 
-	
 
-
-
-	return address;
+   return address;
 }
 
 uint32_t extract_block_offset(uint32_t address, const CacheConfig& cache_config) {
@@ -89,7 +86,7 @@ uint32_t extract_block_offset(uint32_t address, const CacheConfig& cache_config)
 
 	address = address << total;
 
-	address = address >> total;
+	address = (address >> total);
 
   	return address;
 }

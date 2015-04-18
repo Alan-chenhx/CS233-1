@@ -1,5 +1,5 @@
 #include "cachesimulator.h"
-
+#include <iostream>
 using namespace std;
 
 using std::uint32_t;
@@ -24,12 +24,27 @@ Cache::Block* CacheSimulator::find_block(uint32_t address) const {
 
    uint32_t index = extract_index(address, _cache_config);
 
+   //cout<<"index is "<<index<<endl;
+
    vector<Cache::Block*> cache1 = _cache->get_blocks_in_set(index);
 
+   //cout<<"cache1 is "<<cache1[0]<<endl;
+
    uint32_t tag = extract_tag(address, _cache_config);
+
+	//cout<<"tag is "<< tag<<endl;
+	
 	for(int i=0; i< cache1.size(); i++){
+		//if(cache1[i]->is_valid())
+		//	cout<< "hi"<<endl;
+
+		//if(cache1[i]->get_tag()== tag)  //have problem here
+		//	cout<<"Hello"<<endl;
+	// cout<<"tag2 is "<< cache1[i]->get_tag()<<endl;
+
 		if(cache1[i]->is_valid() && cache1[i]->get_tag()== tag ){
 			_hits++;
+			 // cout << "Hello World "<<endl;
 			return cache1[i];
 		}
 	}
@@ -57,11 +72,11 @@ Cache::Block* CacheSimulator::bring_block_into_cache(uint32_t address) const {
 
    uint32_t least_recently_used = cache2[0]->get_last_used_time();
    Cache::Block * lru = cache2[0]; 
-
+   uint32_t tag = extract_tag(address, _cache_config);
   for(int i =0; i< cache2.size(); i++){
 	if(cache2[i]->is_valid() == false){
 		
-		cache2[i]->set_tag(address);
+		cache2[i]->set_tag(tag);
 		cache2[i]->read_data_from_memory(_memory);
 		cache2[i]->mark_as_valid();
 		cache2[i]->mark_as_clean();
@@ -91,17 +106,24 @@ uint32_t CacheSimulator::read_access(uint32_t address) const {
    */
 
    Cache::Block*  recent_block = find_block(address);
-   const CacheConfig& _cache_config2 = _cache->get_config();
-   //uint32_t index2 = extract_index(address, _cache_config2);
-
+// cout<<"the address is"<< address<<endl;
+// cout<<"the recentblock is "<< recent_block<<endl;
    if(recent_block == NULL){
 	recent_block = bring_block_into_cache(address);
 }
-   uint32_t temp = recent_block->get_last_used_time();
+   _use_clock++;
+   uint32_t temp = _use_clock.get_count();
+
    recent_block->set_last_used_time(temp);
     
-   uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
+  const CacheConfig& _cache_config2 = _cache->get_config();
+   //uint32_t index2 = extract_index(address, _cache_config2);
+  //uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
+   //extract_block_offset(uint32_t address, const CacheConfig& cache_config);
+   uint32_t block_offset = extract_block_offset(address, _cache_config2);
    uint32_t output = recent_block->read_word_at_offset(block_offset);
+
+   // cout<<"the output is "<<output<<endl;
 
    return output;
 }
@@ -137,8 +159,9 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
    	found ->set_last_used_time(temp);
 	
 	const CacheConfig& _cache_config2 = _cache->get_config();
-	uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
+	//uint32_t block_offset = _cache_config2.get_num_block_offset_bits();
 	//write_word_at_offset(uint32_t data, uint32_t block_offset) 
+	uint32_t block_offset = extract_block_offset(address, _cache_config2);
 	found -> write_word_at_offset(word, block_offset);
 
 	if(_policy.is_write_back()){
