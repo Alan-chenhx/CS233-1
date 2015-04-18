@@ -38,10 +38,12 @@ Cache::Block* CacheSimulator::find_block(uint32_t address) const {
 		//if(cache1[i]->is_valid())
 		//	cout<< "hi"<<endl;
 
-		//if(cache1[i]->get_tag()== tag)  //have problem here
-		//	cout<<"Hello"<<endl;
-	// cout<<"tag2 is "<< cache1[i]->get_tag()<<endl;
+	//	if(cache1[i]->get_tag()== tag) { //have problem here
+	//		cout<<"Hello"<<endl;
+	 cout<<"tag2 is "<< cache1[i]->get_tag()<<endl;
+  //}
 
+    cout<< cache1[i]->is_valid()<<endl;
 		if(cache1[i]->is_valid() && cache1[i]->get_tag()== tag ){
 			_hits++;
 			 // cout << "Hello World "<<endl;
@@ -64,6 +66,8 @@ Cache::Block* CacheSimulator::bring_block_into_cache(uint32_t address) const {
    * 4. Update the `block`'s tag. Read data into it from memory. Mark it as
    *    valid. Mark it as clean. Return a pointer to the `block`.
    */
+
+//   cout<<"Hello"<<endl;
 
 
    const CacheConfig& _cache_config = _cache->get_config();
@@ -89,9 +93,13 @@ Cache::Block* CacheSimulator::bring_block_into_cache(uint32_t address) const {
 		lru = cache2[i];
 	}
 }
-	if(lru->is_dirty()==true)
+	if(lru->is_dirty()==true){
 		lru->write_data_to_memory(_memory); 
-
+      }
+    lru->set_tag(tag);
+    lru->read_data_from_memory(_memory);
+    lru->mark_as_valid();
+    lru->mark_as_clean();
 	return lru;
 }
 
@@ -111,7 +119,8 @@ uint32_t CacheSimulator::read_access(uint32_t address) const {
    if(recent_block == NULL){
 	recent_block = bring_block_into_cache(address);
 }
-   _use_clock++;
+   //_use_clock.operator++();
+  _use_clock++;
    uint32_t temp = _use_clock.get_count();
 
    recent_block->set_last_used_time(temp);
@@ -123,7 +132,7 @@ uint32_t CacheSimulator::read_access(uint32_t address) const {
    uint32_t block_offset = extract_block_offset(address, _cache_config2);
    uint32_t output = recent_block->read_word_at_offset(block_offset);
 
-   // cout<<"the output is "<<output<<endl;
+    //cout<<"the output is "<<output<<endl;
 
    return output;
 }
@@ -155,7 +164,9 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
 	}
 }
 
-	uint32_t temp = found->get_last_used_time();
+	 //_use_clock.operator++();
+  _use_clock++;
+   uint32_t temp = _use_clock.get_count();
    	found ->set_last_used_time(temp);
 	
 	const CacheConfig& _cache_config2 = _cache->get_config();
@@ -174,6 +185,5 @@ void CacheSimulator::write_access(uint32_t address, uint32_t word) const {
 }
 	
 	return ;
-
 
 }
