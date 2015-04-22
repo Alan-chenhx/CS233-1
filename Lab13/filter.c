@@ -89,13 +89,14 @@ void filter_fusion(pixel_t **image1, pixel_t **image2)
 	for (int i = 1 ; i < SIZE-1 ; i++) {
 		filter1(image1, image2, i);
 
-		if(i <SIZE-4)
-			filter2(image1, image2, i+1);
+		//if(i<SIZE-5)
+		//	filter3(image2, i);
 
-		/*if(i<SIZE-5)
-			filter3(image2, i);
-			*/
-}
+		if(i <SIZE-3)
+			filter2(image1, image2, i+1);
+			
+	}
+
 	for (int i = 1 ; i < SIZE-5 ; i ++) {
 		filter3(image2, i);
 	}		
