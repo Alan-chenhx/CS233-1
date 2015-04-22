@@ -33,8 +33,8 @@ transpose_tiled(int** src, int** dest) {
 void 
 transpose_tiled(int** src, int** dest) {
 
-	clock_t begin, end;
-	double used_time;
+	//clock_t begin, end;
+	//double used_time;
 /*
 	begin = clock();
 
@@ -48,7 +48,7 @@ transpose_tiled(int** src, int** dest) {
 	printf("The running time is %f\n ", used_time);
 
 */
-	begin = clock();
+	//begin = clock();
 
 	for(int j=0; j<SIZE; j+=16){
 		for (int i = 0 ; i < SIZE; i ++) { 
@@ -58,8 +58,8 @@ transpose_tiled(int** src, int** dest) {
 			} 
 		}
 	}
-	end = clock();
-	used_time = (double)(end - begin) / CLOCKS_PER_SEC;
-	printf("The running time for modified transpose is %f \n", used_time);
+	//end = clock();
+	//used_time = (double)(end - begin) / CLOCKS_PER_SEC;
+	//printf("The running time for modified transpose is %f \n", used_time);
 
 }	
