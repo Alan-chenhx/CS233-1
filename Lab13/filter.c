@@ -124,11 +124,11 @@ void filter_prefetch(pixel_t **image1, pixel_t **image2)
 		filter1(image1, image2, i);
 		// __builtin_prefetch (&a[i+j], 1, 1);
     		//__builtin_prefetch (&b[i+j], 0, 1);
-    		//if(temp<i+50){
-    		//	temp = i;
+    		if(temp<i+20){
+    			temp = i;
     	 		__builtin_prefetch (&(*image1[i+40]), 0, 1);
     	 		__builtin_prefetch (&(*image2[i+40]), 1, 0);
-    	//}
+    		}
 	}
 
 	int temp2 = 0;
