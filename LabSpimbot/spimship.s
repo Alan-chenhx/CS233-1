@@ -75,7 +75,7 @@ main:
 
 	li      $t1, 0			#iterator 0->63
 	li      $t2, 0                 	#t2 holds max number of dust
-        li      $t3, 0                  #t3 holds sector # of max
+    li      $t3, 0                  #t3 holds sector # of max
 	sw	$0, scan_flag
 
 
