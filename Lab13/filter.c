@@ -87,14 +87,13 @@ void filter_fusion(pixel_t **image1, pixel_t **image2)
 */
 
 	for (int i = 1 ; i < SIZE-1 ; i++) {
+
 		filter1(image1, image2, i);
-
-		//if(i<SIZE-5)
-		//	filter3(image2, i);
-
-		if(i<SIZE-3)
-			filter2(image1, image2, i+1);
 			
+
+		if(i<SIZE-3){
+			filter2(image1, image2, i+1);
+		}
 	}
 
 	for (int i = 1 ; i < SIZE-5 ; i ++) {
@@ -124,30 +123,30 @@ void filter_prefetch(pixel_t **image1, pixel_t **image2)
 	for (int i = 1 ; i < SIZE-1 ; i++) {
 		filter1(image1, image2, i);
 		// __builtin_prefetch (&a[i+j], 1, 1);
-    	//__builtin_prefetch (&b[i+j], 0, 1);
-    	if(temp<i+80){
-    		temp = i;
-    	 	__builtin_prefetch (&(*image1[i+100]), 0, 1);
-    	 	__builtin_prefetch (&(*image2[i+100]), 1, 0);
-    	}
+    		//__builtin_prefetch (&b[i+j], 0, 1);
+    		//if(temp<i+50){
+    		//	temp = i;
+    	 		__builtin_prefetch (&(*image1[i+40]), 0, 1);
+    	 		__builtin_prefetch (&(*image2[i+40]), 1, 0);
+    	//}
 	}
-	
+
 	int temp2 = 0;
 	for (int i = 2 ; i < SIZE-2 ; i ++) {
 		filter2(image1, image2, i);
-		if(temp2<i+80){
+		if(temp2<i+20){
 			temp2 = i;
-		 	__builtin_prefetch (&(*image1[i+100]), 0, 1);
-    	 	__builtin_prefetch (&(*image2[i+100]), 1, 0);
-    	}
-	}	
+		 	__builtin_prefetch (&(*image1[i+40]), 0, 1);
+    	 		__builtin_prefetch (&(*image2[i+40]), 1, 0);
+    		}
+	}
 
 	int temp3 = 0;
 	for (int i = 1 ; i < SIZE-5 ; i ++) {
 		filter3(image2, i);
-		if(temp3<i+80){
+		if(temp3<i+20){
 			temp3 = i;
-    	 	__builtin_prefetch (&(*image2[i+100]), 1, 0);
+    	 	__builtin_prefetch (&(*image2[i+40]), 1, 0);
 		}
 	}
 }
@@ -163,19 +162,19 @@ void filter_all(pixel_t **image1, pixel_t **image2)
 		if(i <SIZE-3)
 			filter2(image1, image2, i+1);
 
-		if(temp<i+50){
+		if(temp<i+20){
     		temp = i;
-    	 	__builtin_prefetch (&(*image1[i+100]), 0, 1);
-    	 	__builtin_prefetch (&(*image2[i+100]), 1, 0);
-    	}
+    	 	__builtin_prefetch (&(*image1[i+40]), 0, 1);
+    	 	__builtin_prefetch (&(*image2[i+40]), 1, 0);
+    		}
 	}
 
 	int temp2 = 0;
 	for (int i = 1 ; i < SIZE-5 ; i ++) {
 		filter3(image2, i);
-		if(temp2 < i+50){
-			temp2 = i;
-    	 	__builtin_prefetch (&(*image2[i+100]), 1, 0);
+		if(temp2 <i+20){
+		temp2 = i;
+    	 	__builtin_prefetch (&(*image2[i+40]));
 		}
 	}		
 }
