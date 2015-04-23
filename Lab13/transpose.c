@@ -55,9 +55,12 @@ transpose_tiled(int** src, int** dest) {
 
 			for (int jj = j ; jj < min(j+16, SIZE); jj ++) {
 				dest[i][jj] = src[jj][i];
+				//return ;
 			} 
 		}
 	}
+
+
 	//end = clock();
 	//used_time = (double)(end - begin) / CLOCKS_PER_SEC;
 	//printf("The running time for modified transpose is %f \n", used_time);
