@@ -114,6 +114,7 @@ main(int argc, char **argv) {
         // Print a random element so that the compiler does not remove the 
         // computation above
         printf ("Image %d \n", image2[random() % SIZE]->x);	
+
 		
 	}
 	else if (!strcmp(argv[1], "fusion")){

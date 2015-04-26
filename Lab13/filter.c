@@ -126,7 +126,7 @@ void filter_prefetch(pixel_t **image1, pixel_t **image2)
     		//__builtin_prefetch (&b[i+j], 0, 1);
     		if(temp<i+10){
     			temp = i;
-    	 		__builtin_prefetch ((image1[i+20]), 0, 1);
+    	 		__builtin_prefetch ((image1[i+20]), 0, 0);
     	 		__builtin_prefetch ((image2[i+20]), 1, 0);
     		}
 	}
@@ -138,7 +138,7 @@ void filter_prefetch(pixel_t **image1, pixel_t **image2)
 			temp2 = i;
 		 	//__builtin_prefetch (&(*image1[i+40]), 0, 1);
     	 	//__builtin_prefetch (&(*image2[i+40]), 1, 0);
-    	 	__builtin_prefetch ((image1[i+20]), 0, 1);
+    	 	__builtin_prefetch ((image1[i+20]), 0, 0);
     	 	__builtin_prefetch ((image2[i+20]), 1, 0);
     		}
 	}
@@ -166,7 +166,7 @@ void filter_all(pixel_t **image1, pixel_t **image2)
 
 		if(temp<i+10){
     		temp = i;
-    	 	__builtin_prefetch ((image1[i+20]), 0, 1);
+    	 	__builtin_prefetch ((image1[i+20]), 0, 0);
     	 	__builtin_prefetch ((image2[i+20]), 1, 0);
     		}
 	}
@@ -175,8 +175,8 @@ void filter_all(pixel_t **image1, pixel_t **image2)
 	for (int i = 1 ; i < SIZE-5 ; i ++) {
 		filter3(image2, i);
 		if(temp2 <i+10){
-		temp2 = i;
-    	 	__builtin_prefetch (&(*image2[i+20]));
+			temp2 = i;
+    	 	__builtin_prefetch ((image2[i+20]), 1 ,0);
 		}
 	}		
 }
