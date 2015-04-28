@@ -50,8 +50,17 @@ int main(int argc, char **argv) {
 
 	// variable names commented to prevent unused variable warnings
 	// uncomment if you add comparison code
-	/*float *scalar_ret = */time_mult(mat, vec, mv_mult_scalar, "Scalar");
-	/*float *vector_ret = */time_mult(mat, vec, mv_mult_vector, "Vector");
+
+	float *scalar_ret = time_mult(mat, vec, mv_mult_scalar, "Scalar");
+	float *vector_ret = time_mult(mat, vec, mv_mult_vector, "Vector");
+
+	
+	for(int i=0; i<SIZE; i++){
+		if(fabs(scalar_ret[i]-vector_ret[i])>0.001)
+			printf("Fail: beyond the scope");
+		
+}
+
 
 	// you probably want to add code here to compare the scalar and vector results
 	// remember that floating point numbers should be compared using a tolerance
