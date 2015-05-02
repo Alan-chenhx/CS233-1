@@ -3,7 +3,7 @@
 #include <sys/time.h>
 #include "bmp.h"
 #include "mandelbrot.h"
-
+#include <math.h>
 // this scary-looking thing is a function pointer -
 // the C equivalent of C++ function objects (functors).
 // Google it if you're interested
@@ -87,7 +87,14 @@ int main(int argc, char **argv) {
 
 	int *scalar_ret = time_mandelbrot(x_coords, y_coords, mandelbrot_scalar, "Scalar");
 	int *vector_ret = time_mandelbrot(x_coords, y_coords, mandelbrot_vector, "Vector");
+/*
 
+	for(int i=0; i<SIZE; i++){
+		if(fabs(scalar_ret[i]-vector_ret[i])>0.001)
+			printf("Fail: beyond the scope");
+		
+}
+*/
 	create_image(scalar_ret, "mandelbrot-scalar.bmp");
 	create_image(vector_ret, "mandelbrot-vector.bmp");
 

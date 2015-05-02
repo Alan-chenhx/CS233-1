@@ -57,9 +57,8 @@ int main(int argc, char **argv) {
 	
 	for(int i=0; i<SIZE; i++){
 		if(fabs(scalar_ret[i]-vector_ret[i])>0.001)
-			printf("Fail: beyond the scope");
-		
-}
+			printf("Fail: beyond the scope");		
+	}
 
 
 	// you probably want to add code here to compare the scalar and vector results
