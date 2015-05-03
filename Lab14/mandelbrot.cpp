@@ -44,7 +44,7 @@ int *
 mandelbrot_vector(float x[SIZE], float y[SIZE]) {
 	static int ret[SIZE];
 	float temp[4], temp2[4];
-	float x1, y1, x2, y2;
+	float x1, y1; //x2, y2;
 	__m128 acc, X_t, Y_t, X2_t, Y2_t, X_array, Y_array, two_array, MAGs;
 	acc = _mm_set1_ps(0.0);
 	
