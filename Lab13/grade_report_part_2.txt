@@ -1,0 +1,13 @@
+Grades for version committed on time
+	prefetch: 20 / 20
+			*Passed test: prefetch
+		
+	fusion: 20 / 20
+			*Passed test: fusion
+		
+	all: 40 / 40
+			*Passed test: all
+		
+Total: 80.0 / 80
+
+Final Score: 80.0 / 80
