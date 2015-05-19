@@ -1,0 +1,15 @@
+Grades for version committed on time
+	mandelbrot: 40 / 40
+			*Passed test: mandelbrot achieved expected speed up
+		
+	compiler vectorization: 20 / 20
+			*Passed test: t1 was properly vectorized
+			*Passed test: t2 was properly vectorized
+			*Passed test: t3 has data dependencies and was not vectorized
+			*Passed test: t4 was properly vectorized
+			*Passed test: t5 was properly vectorized
+			*Passed test: t6 has data dependencies and was not vectorized
+		
+Total: 60.0 / 60
+
+Final Score: 60.0 / 60
